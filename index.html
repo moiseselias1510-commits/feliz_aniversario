@@ -6,41 +6,43 @@
 <meta name="robots" content="noindex, nofollow">
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-size: cover;
   background-position: center;
-  transition: background 1s ease;
+  overflow: hidden;
+  transition: background-image 1s ease;
 }
 
+/* ✨ ENTRADA */
 .fade-in {
-  animation: fadeZoom 1.2s ease;
+  animation: fadeZoom 1s ease;
 }
 
 @keyframes fadeZoom {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
+/* 📦 CAIXA CENTRAL */
 .container {
-  background: rgba(255,255,255,0.9);
-  padding: 25px;
-  border-radius: 20px;
-  max-width: 520px;
+  background: rgba(255,255,255,0.92);
+  padding: 22px;
+  border-radius: 18px;
+  max-width: 500px;
   width: 90%;
+  margin: auto;
+  margin-top: 8vh;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+  position: relative;
+  z-index: 2;
 }
 
 .hidden { display: none; }
@@ -59,52 +61,124 @@ button {
   margin-top: 10px;
 }
 
+/* ⏱️ CONTADOR */
 #counter {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   margin-top: 10px;
 }
 
-/* 🌻 CARROSSEL 3D */
+/* 🌻 CARROSSEL 3D (LEVE) */
 .carousel {
   position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 30px auto;
+  width: 200px;
+  height: 200px;
+  margin: 28px auto;
   transform-style: preserve-3d;
-  animation: spin 18s infinite linear;
+  animation: spin 20s infinite linear;
 }
 
 .carousel img {
   position: absolute;
-  width: 180px;
-  height: 180px;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 14px;
   left: 20px;
   top: 20px;
 }
 
 @keyframes spin {
   from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+  to   { transform: rotateY(360deg); }
 }
 
-/* 💌 MENSAGENS ESPALHADAS */
+/* 💌 MENSAGENS */
 .message {
   position: absolute;
   background: rgba(255,255,255,0.85);
   padding: 10px 14px;
-  border-radius: 15px;
-  font-size: 14px;
+  border-radius: 14px;
+  font-size: 13px;
   max-width: 160px;
+  z-index: 1;
+}
+
+/* 💿 DISCO */
+.player {
+  position: fixed;
+  bottom: 20px;
+  right: -160px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: right .8s ease;
+  z-index: 3;
+}
+
+.player.show {
+  right: 20px;
+}
+
+.vinyl {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #111 55%, #000 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinyl.spin {
+  animation: spin 4s linear infinite;
+}
+
+.vinyl img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 🎛️ CONTROLES */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controls button {
+  background: #f4b400;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 16px;
+  padding: 0;
+}
+
+/* 📱 AJUSTES MOBILE */
+@media (max-width: 600px) {
+  .carousel {
+    width: 170px;
+    height: 170px;
+  }
+
+  .carousel img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .player {
+    bottom: 15px;
+  }
 }
 </style>
 </head>
 
-<body id="body" style="background-image:url('fundo-login.jpg')">
+<body style="background-image:url('fundo-login.png')">
 
-<!-- LOGIN -->
+<!-- 🔒 LOGIN -->
 <div class="container fade-in" id="login">
   <h2>🌻</h2>
   <input type="password" id="password" placeholder="Senha">
@@ -112,76 +186,127 @@ button {
   <button onclick="checkPassword()">Entrar</button>
 </div>
 
-<!-- SITE -->
+<!-- 💛 INTERIOR -->
 <div class="container hidden fade-in" id="site">
   <h2>💛</h2>
   <p>Estamos juntos há</p>
   <p id="counter"></p>
 
   <div class="carousel" id="carousel"></div>
-
-  <audio src="musica.mp3" autoplay loop></audio>
 </div>
 
-<!-- 💌 MENSAGENS FLUTUANTES -->
-<div class="message" style="top:15%; left:10%;">Eu te amo mais do que sei dizer</div>
-<div class="message" style="top:20%; right:12%;">Você é minha pessoa</div>
-<div class="message" style="bottom:18%; left:14%;">Sempre vou escolher você</div>
-<div class="message" style="bottom:20%; right:10%;">Com você tudo faz sentido</div>
+<!-- 💌 MENSAGENS (SÓ INTERIOR) -->
+<div id="messages" class="hidden">
+  <div class="message" style="top:14%; left:8%;">Eu te amo mais do que sei dizer</div>
+  <div class="message" style="top:20%; right:10%;">Você é minha pessoa</div>
+  <div class="message" style="bottom:22%; left:12%;">Sempre vou escolher você</div>
+  <div class="message" style="bottom:26%; right:8%;">Com você tudo faz sentido</div>
+</div>
+
+<!-- 💿 PLAYER -->
+<div class="player" id="player">
+  <div class="vinyl" id="vinyl">
+    <img id="cover" src="capa1.png">
+  </div>
+  <div class="controls">
+    <button onclick="prevMusic()">⏮</button>
+    <button onclick="toggleMusic()">⏯</button>
+    <button onclick="nextMusic()">⏭</button>
+  </div>
+</div>
+
+<audio id="audio"></audio>
 
 <script>
 const senha = "181024";
 
-/* DATA REAL */
+/* ⏱️ DATA */
 const inicio = new Date(2024, 9, 18, 20, 26, 30);
 
-/* FOTOS */
-const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+/* 📸 FOTOS */
+const fotos = ["foto1.png","foto2.png","foto3.png","foto4.png"];
 
-/* LOGIN */
+/* 🎶 PLAYLIST */
+const playlist = [
+  { src: "musica1.mp3", cover: "capa1.png" },
+  { src: "musica2.mp3", cover: "capa2.png" }
+];
+
+let musicaAtual = 0;
+const audio = document.getElementById("audio");
+const vinyl = document.getElementById("vinyl");
+const cover = document.getElementById("cover");
+
+/* 🔓 LOGIN */
 function checkPassword() {
   if (password.value === senha) {
     login.classList.add("hidden");
     site.classList.remove("hidden");
-    document.body.style.backgroundImage = "url('fundo-dentro.jpg')";
+    messages.classList.remove("hidden");
+    document.body.style.backgroundImage = "url('fundo-dentro.png')";
     startCounter();
     loadCarousel();
+    startPlayer();
   } else {
     alert("Senha incorreta 🌻");
   }
 }
 
-/* CONTADOR */
+/* ⏱️ CONTADOR */
 function startCounter() {
   setInterval(() => {
-    const agora = new Date();
-    let diff = agora - inicio;
-
-    let segundos = Math.floor(diff / 1000);
-    let minutos = Math.floor(segundos / 60);
-    let horas = Math.floor(minutos / 60);
-    let dias = Math.floor(horas / 24);
-
-    horas %= 24;
-    minutos %= 60;
-    segundos %= 60;
-
-    document.getElementById("counter").innerText =
-      `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+    let diff = new Date() - inicio;
+    let s = Math.floor(diff / 1000);
+    let m = Math.floor(s / 60);
+    let h = Math.floor(m / 60);
+    let d = Math.floor(h / 24);
+    h%=24; m%=60; s%=60;
+    counter.innerText = `${d} dias, ${h}h ${m}m ${s}s`;
   }, 1000);
 }
 
-/* CARROSSEL */
+/* 🌻 CARROSSEL */
 function loadCarousel() {
-  const carousel = document.getElementById("carousel");
   const angle = 360 / fotos.length;
-
-  fotos.forEach((foto, i) => {
+  fotos.forEach((foto,i)=>{
     const img = document.createElement("img");
     img.src = foto;
-    img.style.transform = `rotateY(${i * angle}deg) translateZ(280px)`;
+    img.style.transform = `rotateY(${i*angle}deg) translateZ(240px)`;
     carousel.appendChild(img);
   });
+}
+
+/* 💿 PLAYER */
+function startPlayer() {
+  player.classList.add("show");
+  loadMusic(musicaAtual);
+}
+
+function loadMusic(i) {
+  audio.src = playlist[i].src;
+  cover.src = playlist[i].cover;
+  audio.play();
+  vinyl.classList.add("spin");
+}
+
+function toggleMusic() {
+  if (audio.paused) {
+    audio.play();
+    vinyl.classList.add("spin");
+  } else {
+    audio.pause();
+    vinyl.classList.remove("spin");
+  }
+}
+
+function nextMusic() {
+  musicaAtual = (musicaAtual + 1) % playlist.length;
+  loadMusic(musicaAtual);
+}
+
+function prevMusic() {
+  musicaAtual = (musicaAtual - 1 + playlist.length) % playlist.length;
+  loadMusic(musicaAtual);
 }
 </script>
 
