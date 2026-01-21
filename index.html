@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Feliz aniversario baby</title>
+<title>Nosso tempo</title>
 <meta name="robots" content="noindex, nofollow">
 
 <style>
@@ -10,79 +10,157 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background-size: cover;            /* ✅ OPÇÃO 1 */
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain; /* MOSTRA FUNDO INTEIRO */
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 🔲 QUADRADO CENTRAL */
-/* 👉 MUDE A COR AQUI 👇 */
-.card {
-  background: rgba(255, 255, 255, 0.94); /* <- COR DO QUADRADO */
-  padding: 25px;
-  border-radius: 20px;
+/* ✨ ENTRADA */
+.fade-in {
+  animation: fade 1.2s ease;
+}
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* 📦 CAIXA PRINCIPAL */
+.container {
+  background: rgba(255,255,255,0.92); /* 🎨 MUDA A COR AQUI */
+  padding: 22px;
+  border-radius: 18px;
+  max-width: 460px;
   width: 90%;
-  max-width: 420px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+  position: relative;
+  z-index: 2;
 }
 
 .hidden { display: none; }
 
+/* 🔑 LOGIN */
 input, button {
-  width: 100%;
   padding: 12px;
-  border-radius: 25px;
+  border-radius: 22px;
   border: none;
   font-size: 16px;
-  margin-top: 12px;
+  display: block;
+  margin: 12px auto;
 }
 
 button {
   background: #f4b400;
-  color: white;
+  color: #fff;
   cursor: pointer;
 }
 
 /* ⏱️ CONTADOR */
 #counter {
+  font-size: 16px;
   font-weight: bold;
-  margin: 12px 0;
+  margin-top: 10px;
 }
 
-/* 🖼️ CARROSSEL */
+/* 🌻 CARROSSEL 3D */
 .carousel {
   position: relative;
-  width: 260px;
-  height: 260px;
-  margin: auto;
+  width: 220px;
+  height: 220px;
+  margin: 28px auto;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
 }
 
 .carousel img,
 .carousel video {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 16px;
-  opacity: 0;
-  transition: opacity 1s ease;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 14px;
+  left: 40px;
+  top: 40px;
 }
 
-.carousel .active {
-  opacity: 1;
+/* 💌 MENSAGENS */
+.message {
+  position: absolute;
+  background: rgba(255,255,255,0.88);
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  max-width: 160px;
+  opacity: 0;
+  animation: showMsg 1.2s ease forwards;
+}
+
+@keyframes showMsg {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 💿 PLAYER */
+.player {
+  position: fixed;
+  bottom: 18px;
+  right: -160px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: right .8s ease;
+  z-index: 3;
+}
+
+.player.show { right: 18px; }
+
+.vinyl {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #111 55%, #000 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinyl.spin { animation: spin 4s linear infinite; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vinyl img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.controls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
 }
 
 /* 📱 MOBILE */
 @media (max-width: 600px) {
   .carousel {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
   }
 }
 </style>
@@ -91,44 +169,79 @@ button {
 <body style="background-image:url('fundo-login.png')">
 
 <!-- 🔒 LOGIN -->
-<div class="card" id="login">
+<div class="container fade-in" id="login">
   <h2>🌻</h2>
   <input type="password" id="password" placeholder="Senha">
   <button onclick="checkPassword()">Entrar</button>
 </div>
 
-<!-- 💛 SITE -->
-<div class="card hidden" id="site">
+<!-- 💛 INTERIOR -->
+<div class="container hidden fade-in" id="site">
   <p>Estamos juntos há</p>
   <p id="counter"></p>
+  <div class="carousel" id="carousel"></div>
+</div>
 
-  <div class="carousel" id="carousel">
-    <img src="foto1.png">
-    <img src="foto2.png">
-    <img src="foto3.png">
-    <img src="foto4.png">
-    <img src="foto5.png">
-    <video src="video.mp4"></video>
+<!-- 💌 MENSAGENS -->
+<div id="messages" class="hidden">
+  <div class="message" style="top:15%;left:8%;animation-delay:1s">Eu te amo mais do que sei dizer</div>
+  <div class="message" style="top:22%;right:10%;animation-delay:2.2s">Você é minha pessoa</div>
+  <div class="message" style="bottom:25%;left:10%;animation-delay:3.5s">Sempre vou escolher você</div>
+  <div class="message" style="bottom:30%;right:8%;animation-delay:4.8s">Com você tudo faz sentido</div>
+</div>
+
+<!-- 💿 PLAYER -->
+<div class="player" id="player">
+  <div class="vinyl" id="vinyl">
+    <img id="cover" src="capa1.png">
+  </div>
+  <div class="controls">
+    <button onclick="prevMusic()">⏮</button>
+    <button onclick="toggleMusic()">⏯</button>
+    <button onclick="nextMusic()">⏭</button>
   </div>
 </div>
+
+<audio id="audio"></audio>
 
 <script>
 const senha = "181024";
 const inicio = new Date(2024, 9, 18, 20, 26, 30);
 
-const slides = [];
-let index = 0;
+/* 🖼️ 5 FOTOS + 1 VÍDEO */
+const itens = [
+  { type: "img", src: "foto1.png" },
+  { type: "img", src: "foto2.png" },
+  { type: "img", src: "foto3.png" },
+  { type: "img", src: "foto4.png" },
+  { type: "img", src: "foto5.png" },
+  { type: "video", src: "video.mp4" }
+];
+
+const playlist = [
+  { src: "musica1.mp3", cover: "capa1.png" },
+  { src: "musica2.mp3", cover: "capa2.png" }
+];
+
+let musicaAtual = 0;
+let indice = 0;
+let angulo = 0;
+
+const audio = document.getElementById("audio");
+const vinyl = document.getElementById("vinyl");
+const cover = document.getElementById("cover");
 
 function checkPassword() {
   if (password.value === senha) {
     login.classList.add("hidden");
     site.classList.remove("hidden");
+    messages.classList.remove("hidden");
     document.body.style.backgroundImage = "url('fundo-dentro.png')";
     startCounter();
-    startCarousel();
-  } else {
-    alert("Senha incorreta 🌻");
-  }
+    loadCarousel();
+    startRotation();
+    startPlayer();
+  } else alert("Senha incorreta 🌻");
 }
 
 function startCounter() {
@@ -143,35 +256,77 @@ function startCounter() {
   }, 1000);
 }
 
-function startCarousel() {
-  const elements = carousel.children;
-  for (let el of elements) slides.push(el);
-  showSlide();
+function loadCarousel() {
+  const angleStep = 360 / itens.length;
+  itens.forEach((item, i) => {
+    let el;
+    if (item.type === "img") {
+      el = document.createElement("img");
+      el.src = item.src;
+    } else {
+      el = document.createElement("video");
+      el.src = item.src;
+      el.muted = true;
+      el.loop = false;
+    }
+    el.style.transform = `rotateY(${i * angleStep}deg) translateZ(160px)`;
+    carousel.appendChild(el);
+  });
 }
 
-function showSlide() {
-  slides.forEach(s => {
-    s.classList.remove("active");
-    if (s.tagName === "VIDEO") {
-      s.pause();
-      s.currentTime = 0;
+function startRotation() {
+  const angleStep = 360 / itens.length;
+
+  function next() {
+    const atual = carousel.children[indice];
+    if (atual.tagName === "VIDEO") atual.pause();
+
+    indice = (indice + 1) % itens.length;
+    angulo -= angleStep;
+    carousel.style.transform = `rotateY(${angulo}deg)`;
+
+    const novo = carousel.children[indice];
+    if (novo.tagName === "VIDEO") {
+      novo.play();
+      novo.onended = () => setTimeout(next, 1000);
+    } else {
+      setTimeout(next, 10000);
     }
-  });
-
-  const current = slides[index];
-  current.classList.add("active");
-
-  let duration = 10000; // 10s para fotos
-
-  if (current.tagName === "VIDEO") {
-    current.play();
-    duration = current.duration * 1000 || 10000;
   }
 
-  setTimeout(() => {
-    index = (index + 1) % slides.length;
-    showSlide();
-  }, duration);
+  setTimeout(next, 10000);
+}
+
+function startPlayer() {
+  player.classList.add("show");
+  loadMusic(0);
+}
+
+function loadMusic(i) {
+  audio.src = playlist[i].src;
+  cover.src = playlist[i].cover;
+  audio.play();
+  vinyl.classList.add("spin");
+}
+
+function toggleMusic() {
+  if (audio.paused) {
+    audio.play();
+    vinyl.classList.add("spin");
+  } else {
+    audio.pause();
+    vinyl.classList.remove("spin");
+  }
+}
+
+function nextMusic() {
+  musicaAtual = (musicaAtual + 1) % playlist.length;
+  loadMusic(musicaAtual);
+}
+
+function prevMusic() {
+  musicaAtual = (musicaAtual - 1 + playlist.length) % playlist.length;
+  loadMusic(musicaAtual);
 }
 </script>
 
