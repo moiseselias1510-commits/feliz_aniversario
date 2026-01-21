@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Desde que começamos</title>
+<meta name="robots" content="noindex, nofollow">
+
+<style>
+/* ======================
+   FUNDO PERSONALIZADO
+   ====================== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+
+  background: 
+    url("fundo.jpg") center/contain no-repeat,
+    #fff7d6;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ESCURECIMENTO PARA ENTRADA */
+.fade-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  z-index: 5;
+}
+
+.fade-overlay.active {
+  opacity: 0.6;
+}
+
+/* CONTAINER */
+.container {
+  background: rgba(255,255,255,0.9);
+  padding: 25px;
+  border-radius: 20px;
+  max-width: 520px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.2);
+
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.container.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hidden { display: none; }
+
+button {
+  background:#f4b400;
+  border:none;
+  padding:12px 20px;
+  border-radius:25px;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  margin:6px;
+}
+
+input {
+  padding:10px;
+  width:80%;
+  border-radius:10px;
+  border:1px solid #ccc;
+  text-align:center;
+}
+
+#counter {
+  font-size:16px;
+  font-weight:bold;
+  margin: 10px 0;
+}
+
+/* ======================
+   CARROSSEL 3D
+   ====================== */
+.carousel {
+  width: 250px;
+  height: 250px;
+  margin: 20px auto;
+  perspective: 1000px;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin 22s linear infinite;
+}
+
+.carousel-inner img {
+  position: absolute;
+  width: 180px;
+  height: 240px;
+  left: 35px;
+  top: 5px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.3);
+}
+
+@keyframes spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="fade-overlay" id="fade"></div>
+
+<!-- HOME -->
+<div class="container show" id="home">
+  <h2>🌻</h2>
+  <p>Desde que começamos</p>
+  <button onclick="goPassword()">Entrar</button>
+</div>
+
+<!-- SENHA -->
+<div class="container hidden" id="passwordScreen">
+  <h2>🔒</h2>
+  <input type="password" id="password" placeholder="Senha">
+  <br><br>
+  <button onclick="checkPassword()">Confirmar</button>
+</div>
+
+<!-- PRINCIPAL -->
+<div class="container hidden" id="main">
+  <h2>💛</h2>
+  <p><strong>Desde 18/10/2024 — 20:26:30</strong></p>
+  <p id="counter"></p>
+
+  <div class="carousel">
+    <div class="carousel-inner" id="carousel"></div>
+  </div>
+
+  <audio id="music" src="musica.mp3" loop></audio>
+
+  <button onclick="showMessages()">Mensagens</button>
+</div>
+
+<!-- MENSAGENS -->
+<div class="container hidden" id="messages">
+  <h2>💌</h2>
+  <p id="messageText"></p>
+  <button onclick="back()">Voltar</button>
+</div>
+
+<script>
+const senha = "181024";
+const startDate = new Date(2024, 9, 18, 20, 26, 30);
+
+const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+const mensagens = [
+  "Eu te amo mais do que sei explicar.",
+  "Você é meu lugar seguro.",
+  "Obrigado por existir comigo.",
+  "Eu escolheria você todos os dias."
+];
+
+let msgIndex = 0;
+
+function goPassword() {
+  home.classList.add("hidden");
+  passwordScreen.classList.remove("hidden");
+  passwordScreen.classList.add("show");
+}
+
+function checkPassword() {
+  if (password.value === senha) {
+    fade.classList.add("active");
+
+    setTimeout(() => {
+      passwordScreen.classList.add("hidden");
+      main.classList.remove("hidden");
+      main.classList.add("show");
+      music.play();
+      createCarousel();
+      updateCounter();
+      setInterval(updateCounter, 1000);
+    }, 900);
+  } else {
+    alert("Senha incorreta 🌻");
+  }
+}
+
+function updateCounter() {
+  const now = new Date();
+  let y = now.getFullYear() - startDate.getFullYear();
+  let m = now.getMonth() - startDate.getMonth();
+  let d = now.getDate() - startDate.getDate();
+  let h = now.getHours() - startDate.getHours();
+  let min = now.getMinutes() - startDate.getMinutes();
+  let s = now.getSeconds() - startDate.getSeconds();
+
+  if (s < 0) { s += 60; min--; }
+  if (min < 0) { min += 60; h--; }
+  if (h < 0) { h += 24; d--; }
+  if (d < 0) {
+    d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    m--;
+  }
+  if (m < 0) { m += 12; y--; }
+
+  counter.innerText =
+    `Estamos juntos há ${y} anos, ${m} meses, ${d} dias,
+     ${h}h ${min}m ${s}s`;
+}
+
+function createCarousel() {
+  const el = document.getElementById("carousel");
+  const angle = 360 / fotos.length;
+  fotos.forEach((f,i)=>{
+    const img=document.createElement("img");
+    img.src=f;
+    img.style.transform=`rotateY(${i*angle}deg) translateZ(300px)`;
+    el.appendChild(img);
+  });
+}
+
+function showMessages() {
+  main.classList.add("hidden");
+  messages.classList.remove("hidden");
+  messages.classList.add("show");
+  messageText.innerText = mensagens[msgIndex];
+  msgIndex = (msgIndex + 1) % mensagens.length;
+}
+
+function back() {
+  messages.classList.add("hidden");
+  main.classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
