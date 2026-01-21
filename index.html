@@ -2,44 +2,37 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Desde que começamos</title>
+<title>Nosso tempo</title>
 <meta name="robots" content="noindex, nofollow">
 
 <style>
-/* ======================
-   FUNDO PERSONALIZADO
-   ====================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   min-height: 100vh;
-
-  background: 
-    url("fundo.jpg") center/contain no-repeat,
-    #fff7d6;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: background 1s ease;
 }
 
-/* ESCURECIMENTO PARA ENTRADA */
-.fade-overlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.2s ease;
-  z-index: 5;
+.fade-in {
+  animation: fadeZoom 1.2s ease;
 }
 
-.fade-overlay.active {
-  opacity: 0.6;
+@keyframes fadeZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* CONTAINER */
 .container {
   background: rgba(255,255,255,0.9);
   padding: 25px;
@@ -48,204 +41,147 @@ body {
   width: 90%;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0,0,0,.2);
-
-  opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 1.2s ease, transform 1.2s ease;
-}
-
-.container.show {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .hidden { display: none; }
 
-button {
-  background:#f4b400;
-  border:none;
-  padding:12px 20px;
-  border-radius:25px;
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
-  margin:6px;
+input, button {
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  font-size: 16px;
 }
 
-input {
-  padding:10px;
-  width:80%;
-  border-radius:10px;
-  border:1px solid #ccc;
-  text-align:center;
+button {
+  background: #f4b400;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 #counter {
-  font-size:16px;
-  font-weight:bold;
-  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-/* ======================
-   CARROSSEL 3D
-   ====================== */
+/* 🌻 CARROSSEL 3D */
 .carousel {
-  width: 250px;
-  height: 250px;
-  margin: 20px auto;
-  perspective: 1000px;
-}
-
-.carousel-inner {
-  width: 100%;
-  height: 100%;
   position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 30px auto;
   transform-style: preserve-3d;
-  animation: spin 22s linear infinite;
+  animation: spin 18s infinite linear;
 }
 
-.carousel-inner img {
+.carousel img {
   position: absolute;
   width: 180px;
-  height: 240px;
-  left: 35px;
-  top: 5px;
+  height: 180px;
   object-fit: cover;
   border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.3);
+  left: 20px;
+  top: 20px;
 }
 
 @keyframes spin {
   from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
+  to { transform: rotateY(360deg); }
+}
+
+/* 💌 MENSAGENS ESPALHADAS */
+.message {
+  position: absolute;
+  background: rgba(255,255,255,0.85);
+  padding: 10px 14px;
+  border-radius: 15px;
+  font-size: 14px;
+  max-width: 160px;
 }
 </style>
 </head>
 
-<body>
+<body id="body" style="background-image:url('fundo-login.jpg')">
 
-<div class="fade-overlay" id="fade"></div>
-
-<!-- HOME -->
-<div class="container show" id="home">
+<!-- LOGIN -->
+<div class="container fade-in" id="login">
   <h2>🌻</h2>
-  <p>Desde que começamos</p>
-  <button onclick="goPassword()">Entrar</button>
-</div>
-
-<!-- SENHA -->
-<div class="container hidden" id="passwordScreen">
-  <h2>🔒</h2>
   <input type="password" id="password" placeholder="Senha">
-  <br><br>
-  <button onclick="checkPassword()">Confirmar</button>
+  <br>
+  <button onclick="checkPassword()">Entrar</button>
 </div>
 
-<!-- PRINCIPAL -->
-<div class="container hidden" id="main">
+<!-- SITE -->
+<div class="container hidden fade-in" id="site">
   <h2>💛</h2>
-  <p><strong>Desde 18/10/2024 — 20:26:30</strong></p>
+  <p>Estamos juntos há</p>
   <p id="counter"></p>
 
-  <div class="carousel">
-    <div class="carousel-inner" id="carousel"></div>
-  </div>
+  <div class="carousel" id="carousel"></div>
 
-  <audio id="music" src="musica.mp3" loop></audio>
-
-  <button onclick="showMessages()">Mensagens</button>
+  <audio src="musica.mp3" autoplay loop></audio>
 </div>
 
-<!-- MENSAGENS -->
-<div class="container hidden" id="messages">
-  <h2>💌</h2>
-  <p id="messageText"></p>
-  <button onclick="back()">Voltar</button>
-</div>
+<!-- 💌 MENSAGENS FLUTUANTES -->
+<div class="message" style="top:15%; left:10%;">Eu te amo mais do que sei dizer</div>
+<div class="message" style="top:20%; right:12%;">Você é minha pessoa</div>
+<div class="message" style="bottom:18%; left:14%;">Sempre vou escolher você</div>
+<div class="message" style="bottom:20%; right:10%;">Com você tudo faz sentido</div>
 
 <script>
 const senha = "181024";
-const startDate = new Date(2024, 9, 18, 20, 26, 30);
 
+/* DATA REAL */
+const inicio = new Date(2024, 9, 18, 20, 26, 30);
+
+/* FOTOS */
 const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
-const mensagens = [
-  "Eu te amo mais do que sei explicar.",
-  "Você é meu lugar seguro.",
-  "Obrigado por existir comigo.",
-  "Eu escolheria você todos os dias."
-];
 
-let msgIndex = 0;
-
-function goPassword() {
-  home.classList.add("hidden");
-  passwordScreen.classList.remove("hidden");
-  passwordScreen.classList.add("show");
-}
-
+/* LOGIN */
 function checkPassword() {
   if (password.value === senha) {
-    fade.classList.add("active");
-
-    setTimeout(() => {
-      passwordScreen.classList.add("hidden");
-      main.classList.remove("hidden");
-      main.classList.add("show");
-      music.play();
-      createCarousel();
-      updateCounter();
-      setInterval(updateCounter, 1000);
-    }, 900);
+    login.classList.add("hidden");
+    site.classList.remove("hidden");
+    document.body.style.backgroundImage = "url('fundo-dentro.jpg')";
+    startCounter();
+    loadCarousel();
   } else {
     alert("Senha incorreta 🌻");
   }
 }
 
-function updateCounter() {
-  const now = new Date();
-  let y = now.getFullYear() - startDate.getFullYear();
-  let m = now.getMonth() - startDate.getMonth();
-  let d = now.getDate() - startDate.getDate();
-  let h = now.getHours() - startDate.getHours();
-  let min = now.getMinutes() - startDate.getMinutes();
-  let s = now.getSeconds() - startDate.getSeconds();
+/* CONTADOR */
+function startCounter() {
+  setInterval(() => {
+    const agora = new Date();
+    let diff = agora - inicio;
 
-  if (s < 0) { s += 60; min--; }
-  if (min < 0) { min += 60; h--; }
-  if (h < 0) { h += 24; d--; }
-  if (d < 0) {
-    d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-    m--;
-  }
-  if (m < 0) { m += 12; y--; }
+    let segundos = Math.floor(diff / 1000);
+    let minutos = Math.floor(segundos / 60);
+    let horas = Math.floor(minutos / 60);
+    let dias = Math.floor(horas / 24);
 
-  counter.innerText =
-    `Estamos juntos há ${y} anos, ${m} meses, ${d} dias,
-     ${h}h ${min}m ${s}s`;
+    horas %= 24;
+    minutos %= 60;
+    segundos %= 60;
+
+    document.getElementById("counter").innerText =
+      `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+  }, 1000);
 }
 
-function createCarousel() {
-  const el = document.getElementById("carousel");
+/* CARROSSEL */
+function loadCarousel() {
+  const carousel = document.getElementById("carousel");
   const angle = 360 / fotos.length;
-  fotos.forEach((f,i)=>{
-    const img=document.createElement("img");
-    img.src=f;
-    img.style.transform=`rotateY(${i*angle}deg) translateZ(300px)`;
-    el.appendChild(img);
+
+  fotos.forEach((foto, i) => {
+    const img = document.createElement("img");
+    img.src = foto;
+    img.style.transform = `rotateY(${i * angle}deg) translateZ(280px)`;
+    carousel.appendChild(img);
   });
-}
-
-function showMessages() {
-  main.classList.add("hidden");
-  messages.classList.remove("hidden");
-  messages.classList.add("show");
-  messageText.innerText = mensagens[msgIndex];
-  msgIndex = (msgIndex + 1) % mensagens.length;
-}
-
-function back() {
-  messages.classList.add("hidden");
-  main.classList.remove("hidden");
 }
 </script>
 
