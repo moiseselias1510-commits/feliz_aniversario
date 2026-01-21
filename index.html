@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>feliz aniversario baby</title>
+<title>Nosso Tempo</title>
 <meta name="robots" content="noindex, nofollow">
 
 <style>
@@ -10,153 +10,80 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
   min-height: 100vh;
-  background-size: cover;
+  font-family: Arial, sans-serif;
   background-position: center;
-  overflow: hidden;
-}
-
-/* ✨ ENTRADA */
-.fade-in {
-  animation: fade 1.2s ease;
-}
-@keyframes fade {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* 📦 CAIXA */
-.container {
-  background: rgba(255,255,255,0.92);
-  padding: 22px;
-  border-radius: 18px;
-  max-width: 460px;
-  width: 90%;
-  margin: auto;
-  margin-top: 9vh;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,.18);
-  position: relative;
-  z-index: 2;
-}
-
-.hidden { display: none; }
-
-/* 🔑 LOGIN */
-input, button {
-  padding: 12px;
-  border-radius: 22px;
-  border: none;
-  font-size: 16px;
-  display: block;
-  margin: 12px auto;
-}
-
-button {
-  background: #f4b400;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* ⏱️ CONTADOR */
-#counter {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-/* 🌻 CARROSSEL */
-.carousel {
-  position: relative;
-  width: 170px;
-  height: 170px;
-  margin: 24px auto;
-  transform-style: preserve-3d;
-  animation: spin 22s infinite linear;
-}
-
-.carousel img {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 14px;
-  left: 20px;
-  top: 20px;
-}
-
-@keyframes spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
-/* 💌 MENSAGENS */
-.message {
-  position: absolute;
-  background: rgba(255,255,255,0.88);
-  padding: 10px 14px;
-  border-radius: 16px;
-  font-size: 13px;
-  max-width: 160px;
-  opacity: 0;
-  animation: showMsg 1.2s ease forwards;
-}
-
-@keyframes showMsg {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 💿 PLAYER */
-.player {
-  position: fixed;
-  bottom: 18px;
-  right: -160px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: right .8s ease;
-  z-index: 3;
-}
-
-.player.show { right: 18px; }
-
-.vinyl {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #111 55%, #000 60%);
+  background-repeat: no-repeat;
+  background-size: contain; /* MOSTRA FUNDO INTEIRO */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.vinyl.spin { animation: spin 4s linear infinite; }
-
-.vinyl img {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+/* 🔲 QUADRADO CENTRAL */
+/* 👉 MUDE A COR AQUI 👇 */
+.card {
+  background: rgba(255, 255, 255, 0.94); /* <- COR DO QUADRADO */
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.hidden { display: none; }
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  margin-top: 12px;
 }
 
-.controls button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  padding: 0;
+button {
+  background: #f4b400;
+  color: white;
+  cursor: pointer;
+}
+
+/* ⏱️ CONTADOR */
+#counter {
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+/* 🖼️ CARROSSEL */
+.carousel {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: auto;
+}
+
+.carousel img,
+.carousel video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.carousel .active {
+  opacity: 1;
 }
 
 /* 📱 MOBILE */
 @media (max-width: 600px) {
-  .carousel { width: 150px; height: 150px; }
-  .carousel img { width: 120px; height: 120px; }
+  .carousel {
+    width: 220px;
+    height: 220px;
+  }
 }
 </style>
 </head>
@@ -164,110 +91,88 @@ button {
 <body style="background-image:url('fundo-login.png')">
 
 <!-- 🔒 LOGIN -->
-<div class="container fade-in" id="login">
+<div class="card" id="login">
   <h2>🌻</h2>
   <input type="password" id="password" placeholder="Senha">
   <button onclick="checkPassword()">Entrar</button>
 </div>
 
-<!-- 💛 INTERIOR -->
-<div class="container hidden fade-in" id="site">
+<!-- 💛 SITE -->
+<div class="card hidden" id="site">
   <p>Estamos juntos há</p>
   <p id="counter"></p>
-  <div class="carousel" id="carousel"></div>
-</div>
 
-<!-- 💌 MENSAGENS -->
-<div id="messages" class="hidden">
-  <div class="message" style="top:15%;left:8%;animation-delay:1s">Eu te amo mais do que sei dizer</div>
-  <div class="message" style="top:22%;right:10%;animation-delay:2.2s">Você é minha pessoa</div>
-  <div class="message" style="bottom:25%;left:10%;animation-delay:3.5s">Sempre vou escolher você</div>
-  <div class="message" style="bottom:30%;right:8%;animation-delay:4.8s">Com você tudo faz sentido</div>
-</div>
-
-<!-- 💿 PLAYER -->
-<div class="player" id="player">
-  <div class="vinyl" id="vinyl">
-    <img id="cover" src="capa1.png">
-  </div>
-  <div class="controls">
-    <button onclick="prevMusic()">⏮</button>
-    <button onclick="toggleMusic()">⏯</button>
-    <button onclick="nextMusic()">⏭</button>
+  <div class="carousel" id="carousel">
+    <img src="foto1.png">
+    <img src="foto2.png">
+    <img src="foto3.png">
+    <img src="foto4.png">
+    <img src="foto5.png">
+    <video src="video.mp4"></video>
   </div>
 </div>
-
-<audio id="audio"></audio>
 
 <script>
 const senha = "181024";
 const inicio = new Date(2024, 9, 18, 20, 26, 30);
 
-const fotos = ["foto1.png","foto2.png","foto3.png","foto4.png"];
-
-const playlist = [
-  { src: "musica1.mp3", cover: "capa1.png" },
-  { src: "musica2.mp3", cover: "capa2.png" }
-];
-
-let musicaAtual = 0;
-const audio = document.getElementById("audio");
-const vinyl = document.getElementById("vinyl");
-const cover = document.getElementById("cover");
+const slides = [];
+let index = 0;
 
 function checkPassword() {
   if (password.value === senha) {
     login.classList.add("hidden");
     site.classList.remove("hidden");
-    messages.classList.remove("hidden");
     document.body.style.backgroundImage = "url('fundo-dentro.png')";
     startCounter();
-    loadCarousel();
-    startPlayer();
-  } else alert("Senha incorreta 🌻");
+    startCarousel();
+  } else {
+    alert("Senha incorreta 🌻");
+  }
 }
 
 function startCounter() {
-  setInterval(()=>{
+  setInterval(() => {
     let diff = new Date() - inicio;
-    let s = Math.floor(diff/1000);
-    let m = Math.floor(s/60);
-    let h = Math.floor(m/60);
-    let d = Math.floor(h/24);
-    h%=24; m%=60; s%=60;
+    let s = Math.floor(diff / 1000);
+    let m = Math.floor(s / 60);
+    let h = Math.floor(m / 60);
+    let d = Math.floor(h / 24);
+    h %= 24; m %= 60; s %= 60;
     counter.innerText = `${d} dias, ${h}h ${m}m ${s}s`;
-  },1000);
+  }, 1000);
 }
 
-function loadCarousel() {
-  const angle = 360 / fotos.length;
-  fotos.forEach((f,i)=>{
-    let img=document.createElement("img");
-    img.src=f;
-    img.style.transform=`rotateY(${i*angle}deg) translateZ(160px)`;
-    carousel.appendChild(img);
+function startCarousel() {
+  const elements = carousel.children;
+  for (let el of elements) slides.push(el);
+  showSlide();
+}
+
+function showSlide() {
+  slides.forEach(s => {
+    s.classList.remove("active");
+    if (s.tagName === "VIDEO") {
+      s.pause();
+      s.currentTime = 0;
+    }
   });
-}
 
-function startPlayer(){
-  player.classList.add("show");
-  loadMusic(0);
-}
+  const current = slides[index];
+  current.classList.add("active");
 
-function loadMusic(i){
-  audio.src=playlist[i].src;
-  cover.src=playlist[i].cover;
-  audio.play();
-  vinyl.classList.add("spin");
-}
+  let duration = 10000; // 10s para fotos
 
-function toggleMusic(){
-  if(audio.paused){audio.play();vinyl.classList.add("spin")}
-  else{audio.pause();vinyl.classList.remove("spin")}
-}
+  if (current.tagName === "VIDEO") {
+    current.play();
+    duration = current.duration * 1000 || 10000;
+  }
 
-function nextMusic(){musicaAtual=(musicaAtual+1)%playlist.length;loadMusic(musicaAtual)}
-function prevMusic(){musicaAtual=(musicaAtual-1+playlist.length)%playlist.length;loadMusic(musicaAtual)}
+  setTimeout(() => {
+    index = (index + 1) % slides.length;
+    showSlide();
+  }, duration);
+}
 </script>
 
 </body>
