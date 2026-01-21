@@ -6,9 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -17,28 +15,26 @@ body {
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  transition: background-image 1s ease;
 }
 
 /* ✨ ENTRADA */
 .fade-in {
-  animation: fadeZoom 1s ease;
+  animation: fade 1.2s ease;
+}
+@keyframes fade {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes fadeZoom {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* 📦 CAIXA CENTRAL */
+/* 📦 CAIXA */
 .container {
   background: rgba(255,255,255,0.92);
   padding: 22px;
   border-radius: 18px;
-  max-width: 500px;
+  max-width: 460px;
   width: 90%;
   margin: auto;
-  margin-top: 8vh;
+  margin-top: 9vh;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0,0,0,.18);
   position: relative;
@@ -47,41 +43,43 @@ body {
 
 .hidden { display: none; }
 
+/* 🔑 LOGIN */
 input, button {
   padding: 12px;
-  border-radius: 20px;
+  border-radius: 22px;
   border: none;
   font-size: 16px;
+  display: block;
+  margin: 12px auto;
 }
 
 button {
   background: #f4b400;
   color: #fff;
   cursor: pointer;
-  margin-top: 10px;
 }
 
 /* ⏱️ CONTADOR */
 #counter {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: bold;
   margin-top: 10px;
 }
 
-/* 🌻 CARROSSEL 3D (LEVE) */
+/* 🌻 CARROSSEL */
 .carousel {
   position: relative;
-  width: 200px;
-  height: 200px;
-  margin: 28px auto;
+  width: 170px;
+  height: 170px;
+  margin: 24px auto;
   transform-style: preserve-3d;
-  animation: spin 20s infinite linear;
+  animation: spin 22s infinite linear;
 }
 
 .carousel img {
   position: absolute;
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
   border-radius: 14px;
   left: 20px;
@@ -90,24 +88,30 @@ button {
 
 @keyframes spin {
   from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
+  to { transform: rotateY(360deg); }
 }
 
 /* 💌 MENSAGENS */
 .message {
   position: absolute;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.88);
   padding: 10px 14px;
-  border-radius: 14px;
+  border-radius: 16px;
   font-size: 13px;
   max-width: 160px;
-  z-index: 1;
+  opacity: 0;
+  animation: showMsg 1.2s ease forwards;
 }
 
-/* 💿 DISCO */
+@keyframes showMsg {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 💿 PLAYER */
 .player {
   position: fixed;
-  bottom: 20px;
+  bottom: 18px;
   right: -160px;
   display: flex;
   align-items: center;
@@ -116,13 +120,11 @@ button {
   z-index: 3;
 }
 
-.player.show {
-  right: 20px;
-}
+.player.show { right: 18px; }
 
 .vinyl {
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
   border-radius: 50%;
   background: radial-gradient(circle, #111 55%, #000 60%);
   display: flex;
@@ -130,48 +132,31 @@ button {
   justify-content: center;
 }
 
-.vinyl.spin {
-  animation: spin 4s linear infinite;
-}
+.vinyl.spin { animation: spin 4s linear infinite; }
 
 .vinyl img {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  object-fit: cover;
 }
 
-/* 🎛️ CONTROLES */
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .controls button {
-  background: #f4b400;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  font-size: 16px;
   padding: 0;
 }
 
-/* 📱 AJUSTES MOBILE */
+/* 📱 MOBILE */
 @media (max-width: 600px) {
-  .carousel {
-    width: 170px;
-    height: 170px;
-  }
-
-  .carousel img {
-    width: 140px;
-    height: 140px;
-  }
-
-  .player {
-    bottom: 15px;
-  }
+  .carousel { width: 150px; height: 150px; }
+  .carousel img { width: 120px; height: 120px; }
 }
 </style>
 </head>
@@ -182,25 +167,22 @@ button {
 <div class="container fade-in" id="login">
   <h2>🌻</h2>
   <input type="password" id="password" placeholder="Senha">
-  <br>
   <button onclick="checkPassword()">Entrar</button>
 </div>
 
 <!-- 💛 INTERIOR -->
 <div class="container hidden fade-in" id="site">
-  <h2>💛</h2>
   <p>Estamos juntos há</p>
   <p id="counter"></p>
-
   <div class="carousel" id="carousel"></div>
 </div>
 
-<!-- 💌 MENSAGENS (SÓ INTERIOR) -->
+<!-- 💌 MENSAGENS -->
 <div id="messages" class="hidden">
-  <div class="message" style="top:14%; left:8%;">Eu te amo mais do que sei dizer</div>
-  <div class="message" style="top:20%; right:10%;">Você é minha pessoa</div>
-  <div class="message" style="bottom:22%; left:12%;">Sempre vou escolher você</div>
-  <div class="message" style="bottom:26%; right:8%;">Com você tudo faz sentido</div>
+  <div class="message" style="top:15%;left:8%;animation-delay:1s">Eu te amo mais do que sei dizer</div>
+  <div class="message" style="top:22%;right:10%;animation-delay:2.2s">Você é minha pessoa</div>
+  <div class="message" style="bottom:25%;left:10%;animation-delay:3.5s">Sempre vou escolher você</div>
+  <div class="message" style="bottom:30%;right:8%;animation-delay:4.8s">Com você tudo faz sentido</div>
 </div>
 
 <!-- 💿 PLAYER -->
@@ -219,14 +201,10 @@ button {
 
 <script>
 const senha = "181024";
-
-/* ⏱️ DATA */
 const inicio = new Date(2024, 9, 18, 20, 26, 30);
 
-/* 📸 FOTOS */
 const fotos = ["foto1.png","foto2.png","foto3.png","foto4.png"];
 
-/* 🎶 PLAYLIST */
 const playlist = [
   { src: "musica1.mp3", cover: "capa1.png" },
   { src: "musica2.mp3", cover: "capa2.png" }
@@ -237,7 +215,6 @@ const audio = document.getElementById("audio");
 const vinyl = document.getElementById("vinyl");
 const cover = document.getElementById("cover");
 
-/* 🔓 LOGIN */
 function checkPassword() {
   if (password.value === senha) {
     login.classList.add("hidden");
@@ -247,67 +224,50 @@ function checkPassword() {
     startCounter();
     loadCarousel();
     startPlayer();
-  } else {
-    alert("Senha incorreta 🌻");
-  }
+  } else alert("Senha incorreta 🌻");
 }
 
-/* ⏱️ CONTADOR */
 function startCounter() {
-  setInterval(() => {
+  setInterval(()=>{
     let diff = new Date() - inicio;
-    let s = Math.floor(diff / 1000);
-    let m = Math.floor(s / 60);
-    let h = Math.floor(m / 60);
-    let d = Math.floor(h / 24);
+    let s = Math.floor(diff/1000);
+    let m = Math.floor(s/60);
+    let h = Math.floor(m/60);
+    let d = Math.floor(h/24);
     h%=24; m%=60; s%=60;
     counter.innerText = `${d} dias, ${h}h ${m}m ${s}s`;
-  }, 1000);
+  },1000);
 }
 
-/* 🌻 CARROSSEL */
 function loadCarousel() {
   const angle = 360 / fotos.length;
-  fotos.forEach((foto,i)=>{
-    const img = document.createElement("img");
-    img.src = foto;
-    img.style.transform = `rotateY(${i*angle}deg) translateZ(240px)`;
+  fotos.forEach((f,i)=>{
+    let img=document.createElement("img");
+    img.src=f;
+    img.style.transform=`rotateY(${i*angle}deg) translateZ(160px)`;
     carousel.appendChild(img);
   });
 }
 
-/* 💿 PLAYER */
-function startPlayer() {
+function startPlayer(){
   player.classList.add("show");
-  loadMusic(musicaAtual);
+  loadMusic(0);
 }
 
-function loadMusic(i) {
-  audio.src = playlist[i].src;
-  cover.src = playlist[i].cover;
+function loadMusic(i){
+  audio.src=playlist[i].src;
+  cover.src=playlist[i].cover;
   audio.play();
   vinyl.classList.add("spin");
 }
 
-function toggleMusic() {
-  if (audio.paused) {
-    audio.play();
-    vinyl.classList.add("spin");
-  } else {
-    audio.pause();
-    vinyl.classList.remove("spin");
-  }
+function toggleMusic(){
+  if(audio.paused){audio.play();vinyl.classList.add("spin")}
+  else{audio.pause();vinyl.classList.remove("spin")}
 }
 
-function nextMusic() {
-  musicaAtual = (musicaAtual + 1) % playlist.length;
-  loadMusic(musicaAtual);
-}
-
-function prevMusic() {
-  musicaAtual = (musicaAtual - 1 + playlist.length) % playlist.length;
-  loadMusic(musicaAtual);
-}
+function nextMusic(){musicaAtual=(musicaAtual+1)%playlist.length;loadMusic(musicaAtual)}
+function prevMusic(){musicaAtual=(musicaAtual-1+playlist.length)%playlist.length;loadMusic(musicaAtual)}
 </script>
 
 </body>
