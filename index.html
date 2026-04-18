@@ -1384,10 +1384,13 @@
     }
 
     function getVisibleMemories() {
-      return monthlyMemories
-        .filter(item => new Date(item.date + "T23:59:59") <= CURRENT_DATE)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
+     return monthlyMemories
+    .filter(item => {
+      const memoryDate = new Date(item.date + "T00:00:00");
+      return memoryDate <= CURRENT_DATE;
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+}
 
     function formatMemoryDate(dateString) {
       const [year, month, day] = dateString.split("-").map(Number);
