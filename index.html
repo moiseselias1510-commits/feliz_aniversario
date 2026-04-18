@@ -9,17 +9,18 @@
   <style>
     :root {
       --white: #ffffff;
-      --text-soft: rgba(255, 255, 255, 0.86);
+      --text-soft: rgba(255, 255, 255, 0.88);
       --glass: rgba(255, 255, 255, 0.16);
       --glass-strong: rgba(255, 255, 255, 0.22);
       --border: rgba(255, 255, 255, 0.26);
-      --shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+      --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.12);
       --accent: #f4b400;
-      --container: 1150px;
+      --container: 1160px;
       --radius-xl: 30px;
-      --radius-lg: 22px;
+      --radius-lg: 24px;
       --radius-md: 18px;
+      --radius-sm: 14px;
     }
 
     * {
@@ -380,7 +381,7 @@
       position: relative;
       z-index: 2;
       width: min(var(--container), 92vw);
-      margin: 26px auto 140px;
+      margin: 26px auto 180px;
       opacity: 0;
       transform: translateY(20px);
       pointer-events: none;
@@ -442,41 +443,41 @@
       animation: pulseSoft 3.4s ease infinite;
     }
 
-    .main-grid {
+    .content-grid {
       display: grid;
-      grid-template-columns: 1.08fr .92fr;
+      grid-template-columns: 1fr 1fr;
       gap: 22px;
-      align-items: start;
+      align-items: stretch;
     }
 
-    .hero-card,
-    .memory-card,
-    .gallery-card-wrap {
+    .card-equal {
+      min-height: 100%;
       border-radius: var(--radius-xl);
-      padding: 22px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
     }
 
     .eyebrow {
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      font-size: .98rem;
-      letter-spacing: .03em;
+      margin: 0 0 18px;
+      color: rgba(255,255,255,.84);
+      font-size: 1rem;
+      letter-spacing: .06em;
       text-transform: uppercase;
-    }
-
-    .hero-card h2 {
-      margin: 8px 0 18px;
-      font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+      text-align: center;
+      font-weight: 700;
     }
 
     .counter-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 12px;
+      gap: 14px;
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
     .counter-box {
-      padding: 16px 12px;
+      padding: 18px 12px;
       text-align: center;
       border-radius: 20px;
       background: rgba(255,255,255,.14);
@@ -494,51 +495,8 @@
 
     .counter-label {
       display: block;
-      font-size: .9rem;
-      color: rgba(255,255,255,.86);
-    }
-
-    .hero-footnote {
-      margin: 16px 0 0;
-      color: rgba(255,255,255,.86);
-      line-height: 1.6;
-    }
-
-    .side-stack {
-      display: grid;
-      gap: 22px;
-    }
-
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      font-size: .95rem;
-      color: rgba(255,255,255,.85);
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .current-memory {
-      margin: 6px 0 10px;
-      font-size: clamp(1.08rem, 2.2vw, 1.3rem);
-      font-weight: 700;
-      line-height: 1.7;
-      transition: opacity .6s ease, transform .6s ease;
-    }
-
-    .memory-date {
-      color: rgba(255,255,255,.75);
-      font-size: .95rem;
-      margin-bottom: 16px;
-    }
-
-    .memory-note {
-      margin: 0 0 16px;
-      color: rgba(255,255,255,.82);
-      line-height: 1.6;
-      font-size: .97rem;
+      font-size: .92rem;
+      color: rgba(255,255,255,.9);
     }
 
     .gallery-top {
@@ -547,7 +505,14 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 14px;
-      flex-wrap: wrap;
+    }
+
+    .gallery-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.84);
     }
 
     .gallery-actions {
@@ -563,11 +528,14 @@
       color: white;
       border: 1px solid rgba(255,255,255,.24);
       font-size: 1rem;
+      flex-shrink: 0;
     }
 
     .carousel-shell {
       overflow: hidden;
       border-radius: 24px;
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
     .carousel-track {
@@ -651,6 +619,41 @@
       background: white;
     }
 
+    .memory-full {
+      grid-column: 1 / -1;
+      text-align: center;
+      border-radius: var(--radius-xl);
+      padding: 24px;
+    }
+
+    .memory-label {
+      margin: 0 0 10px;
+      color: rgba(255,255,255,.82);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .current-memory {
+      margin: 0;
+      font-size: clamp(1.08rem, 2.1vw, 1.35rem);
+      font-weight: 700;
+      line-height: 1.75;
+    }
+
+    .memory-date {
+      margin: 12px 0 0;
+      color: rgba(255,255,255,.78);
+      font-size: .96rem;
+    }
+
+    .memory-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
     /* MENSAGENS FIXAS */
     #cornerMessages {
       position: fixed;
@@ -661,7 +664,7 @@
 
     .corner-message {
       position: fixed;
-      max-width: min(255px, 24vw);
+      max-width: min(250px, 23vw);
       padding: 12px 14px;
       border-radius: 18px;
       background: rgba(255,255,255,.9);
@@ -682,44 +685,44 @@
 
     .corner-tl { top: 110px; left: 24px; }
     .corner-tr { top: 110px; right: 24px; }
-    .corner-bl { bottom: 118px; left: 24px; }
-    .corner-br { bottom: 118px; right: 24px; }
+    .corner-bl { bottom: 130px; left: 24px; }
+    .corner-br { bottom: 130px; right: 24px; }
 
     /* PLAYER */
     .player {
       position: fixed;
-      right: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(18px);
       bottom: 16px;
       z-index: 12;
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
-      border-radius: 24px;
+      padding: 10px 14px;
+      border-radius: 999px;
       background: rgba(255,255,255,.18);
       border: 1px solid rgba(255,255,255,.24);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       box-shadow: var(--shadow);
-      transform: translateY(18px);
       opacity: 0;
       pointer-events: none;
       transition: opacity .8s ease, transform .8s ease;
-      max-width: min(92vw, 360px);
+      max-width: min(94vw, 540px);
     }
 
     .player.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
       pointer-events: auto;
     }
 
     .vinyl {
-      width: 82px;
-      height: 82px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
       background:
-        radial-gradient(circle at center, #f0f0f0 0 9px, #151515 10px 32px, #000 33px 100%);
+        radial-gradient(circle at center, #f0f0f0 0 8px, #151515 9px 24px, #000 25px 100%);
       display: grid;
       place-items: center;
       overflow: hidden;
@@ -727,8 +730,8 @@
     }
 
     .vinyl img {
-      width: 38px;
-      height: 38px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid rgba(255,255,255,.85);
@@ -738,36 +741,15 @@
       animation: spin 4s linear infinite;
     }
 
-    .player-info {
-      min-width: 0;
-      flex: 1;
-      display: grid;
-      gap: 8px;
-    }
-
-    .player-title {
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .player-subtitle {
-      font-size: .88rem;
-      color: rgba(255,255,255,.8);
-      margin-top: -3px;
-    }
-
     .player-controls {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
     .player-controls .icon-btn {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       font-size: .95rem;
     }
 
@@ -775,8 +757,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,.85);
-      width: 100%;
+      width: 140px;
+      color: rgba(255,255,255,.88);
     }
 
     .volume-wrap input[type="range"] {
@@ -881,8 +863,12 @@
     }
 
     @media (max-width: 980px) {
-      .main-grid {
+      .content-grid {
         grid-template-columns: 1fr;
+      }
+
+      .memory-full {
+        grid-column: auto;
       }
 
       .corner-message {
@@ -893,6 +879,7 @@
     @media (max-width: 760px) {
       #mainSite {
         margin-top: 18px;
+        margin-bottom: 220px;
       }
 
       .counter-grid {
@@ -902,7 +889,7 @@
       #cornerMessages {
         position: static;
         width: min(92vw, 760px);
-        margin: 16px auto 110px;
+        margin: 16px auto 120px;
         display: grid;
         grid-template-columns: 1fr;
         gap: 12px;
@@ -924,15 +911,18 @@
       }
 
       .player {
-        left: 12px;
-        right: 12px;
+        left: 50%;
+        right: auto;
         bottom: 12px;
-        max-width: none;
+        width: min(94vw, 460px);
+        justify-content: center;
+        flex-wrap: wrap;
+        border-radius: 26px;
+        padding: 12px;
       }
 
-      .vinyl {
-        width: 70px;
-        height: 70px;
+      .volume-wrap {
+        width: 100%;
       }
 
       .media-card {
@@ -950,9 +940,8 @@
       }
 
       .login-card,
-      .hero-card,
-      .memory-card,
-      .gallery-card-wrap {
+      .card-equal,
+      .memory-full {
         padding: 18px;
       }
 
@@ -976,6 +965,11 @@
 
       .overlay-card {
         padding: 16px;
+      }
+
+      .vinyl {
+        width: 56px;
+        height: 56px;
       }
     }
   </style>
@@ -1023,13 +1017,12 @@
     <header class="site-header reveal">
       <h1 class="site-title">Nosso tempo ❤️</h1>
       <p class="site-subtitle">Cada segundo com você vale a pena.</p>
-      <div class="thought-pill" id="thoughtOfDay">Hoje pensei em você 0 vezes</div>
+      <div class="thought-pill" id="thoughtOfDay">Hoje pensei em você 171 vezes</div>
     </header>
 
-    <section class="main-grid">
-      <article class="hero-card glass reveal">
-        <p class="eyebrow">Estamos juntos há</p>
-        <h2>O nosso tempo, em cada pedacinho dele</h2>
+    <section class="content-grid">
+      <article class="card-equal glass reveal">
+        <p class="eyebrow">ESTAMOS JUNTOS HÁ</p>
 
         <div class="counter-grid">
           <div class="counter-box">
@@ -1057,45 +1050,34 @@
             <span class="counter-label">segundos</span>
           </div>
         </div>
-
-        <p class="hero-footnote">
-          E mesmo com o tempo passando, eu continuo te escolhendo em cada detalhe.
-        </p>
       </article>
 
-      <div class="side-stack">
-        <article class="memory-card glass reveal">
-          <div class="section-label">💌 Frase do mês</div>
-          <div class="current-memory" id="currentMemoryText">
-            Mais um mês com você… e eu te amo ainda mais.
+      <article class="card-equal glass reveal">
+        <div class="gallery-top">
+          <div class="gallery-title">Nossas fotos</div>
+
+          <div class="gallery-actions">
+            <button class="icon-btn" id="prevSlideBtn" aria-label="Anterior">⟨</button>
+            <button class="icon-btn" id="nextSlideBtn" aria-label="Próximo">⟩</button>
           </div>
-          <div class="memory-date" id="currentMemoryDate">18 de outubro</div>
-          <p class="memory-note">
-            Todo dia 18, uma nova lembrança entra aqui, enquanto as anteriores continuam guardadas com carinho.
-          </p>
+        </div>
+
+        <div class="carousel-shell">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+
+        <div class="dots" id="carouselDots"></div>
+      </article>
+
+      <article class="memory-full glass reveal">
+        <p class="memory-label">Frase do mês</p>
+        <p class="current-memory" id="currentMemoryText">Mais um mês com você… e eu te amo ainda mais.</p>
+        <p class="memory-date" id="currentMemoryDate">18 de abril de 2026</p>
+
+        <div class="memory-actions">
           <button class="secondary-btn" id="openMemoriesBtn">Ver nossas memórias ❤️</button>
-        </article>
-
-        <article class="gallery-card-wrap glass reveal">
-          <div class="gallery-top">
-            <div>
-              <div class="section-label">🖼️ Galeria</div>
-              <strong>Fotos e vídeo</strong>
-            </div>
-
-            <div class="gallery-actions">
-              <button class="icon-btn" id="prevSlideBtn" aria-label="Anterior">⟨</button>
-              <button class="icon-btn" id="nextSlideBtn" aria-label="Próximo">⟩</button>
-            </div>
-          </div>
-
-          <div class="carousel-shell">
-            <div class="carousel-track" id="carouselTrack"></div>
-          </div>
-
-          <div class="dots" id="carouselDots"></div>
-        </article>
-      </div>
+        </div>
+      </article>
     </section>
   </main>
 
@@ -1124,20 +1106,15 @@
       <img id="cover" src="capa1.png" alt="Capa da música">
     </div>
 
-    <div class="player-info">
-      <div class="player-title" id="musicTitle">Nossa música 1</div>
-      <div class="player-subtitle">Toque especial pra deixar tudo ainda mais bonito</div>
+    <div class="player-controls">
+      <button class="icon-btn" id="prevMusicBtn" aria-label="Música anterior">⏮</button>
+      <button class="icon-btn" id="toggleMusicBtn" aria-label="Tocar ou pausar">⏯</button>
+      <button class="icon-btn" id="nextMusicBtn" aria-label="Próxima música">⏭</button>
+    </div>
 
-      <div class="player-controls">
-        <button class="icon-btn" id="prevMusicBtn" aria-label="Música anterior">⏮</button>
-        <button class="icon-btn" id="toggleMusicBtn" aria-label="Tocar ou pausar">⏯</button>
-        <button class="icon-btn" id="nextMusicBtn" aria-label="Próxima música">⏭</button>
-      </div>
-
-      <div class="volume-wrap">
-        <span>🔊</span>
-        <input type="range" id="volumeSlider" min="0" max="100" value="55">
-      </div>
+    <div class="volume-wrap">
+      <span>🔊</span>
+      <input type="range" id="volumeSlider" min="0" max="100" value="55">
     </div>
   </div>
 
@@ -1157,31 +1134,34 @@
     ];
 
     const playlist = [
-      { src: "musica1.mp3", cover: "capa1.png", title: "Nossa música 1" },
-      { src: "musica2.mp3", cover: "capa2.png", title: "Nossa música 2" },
-      { src: "musica3.mp3", cover: "capa3.png", title: "Nossa música 3" },
-      { src: "musica4.mp3", cover: "capa4.png", title: "Nossa música 4" },
-      { src: "musica5.mp3", cover: "capa5.png", title: "Nossa música 5" },
-      { src: "musica6.mp3", cover: "capa6.png", title: "Nossa música 6" }
+      { src: "musica1.mp3", cover: "capa1.png" },
+      { src: "musica2.mp3", cover: "capa2.png" },
+      { src: "musica3.mp3", cover: "capa3.png" },
+      { src: "musica4.mp3", cover: "capa4.png" },
+      { src: "musica5.mp3", cover: "capa5.png" },
+      { src: "musica6.mp3", cover: "capa6.png" }
     ];
 
+    /* FRASES MENSAIS DE 2026
+       FUTURAS NÃO APARECEM NO HISTÓRICO.
+       A FRASE ATUAL É SEMPRE A ÚLTIMA QUE JÁ CHEGOU.
+    */
     const monthlyMemories = [
-      { date: "2024-10-18", text: "Começou o nosso nós, e desde então meu coração aprendeu um novo lar." },
-      { date: "2024-11-18", text: "Um mês depois, eu já tinha ainda mais certeza de que você era especial pra mim." },
-      { date: "2024-12-18", text: "Cada conversa, cada risada e cada detalhe seu foram deixando tudo mais bonito." },
-      { date: "2025-01-18", text: "Começar um novo ano com você no meu coração fez tudo ter mais sentido." },
-      { date: "2025-02-18", text: "Mais um mês com você, e eu sigo descobrindo novos motivos pra te amar." },
-      { date: "2025-03-18", text: "Você foi virando paz, carinho, saudade boa e vontade de ficar pra sempre." },
-      { date: "2025-04-18", text: "O tempo passa, mas o que eu sinto por você só cresce e fica mais bonito." },
-      { date: "2025-05-18", text: "Você tem esse jeito de deixar meu mundo mais leve só por existir nele." },
-      { date: "2025-06-18", text: "Mais um dia 18, mais uma lembrança boa pra guardar no coração." },
-      { date: "2025-07-18", text: "Amar você continua sendo uma das coisas mais bonitas que já me aconteceram." },
-      { date: "2025-08-18", text: "Em cada mês que passa, eu percebo ainda mais o quanto você é importante pra mim." },
-      { date: "2025-09-18", text: "Você transformou pequenos momentos em memórias que eu quero levar comigo sempre." },
-      { date: "2025-10-18", text: "Mais um ciclo nosso, mais uma prova de que meu coração fez a escolha certa." },
-      { date: "2025-11-18", text: "Você é aquele tipo de pessoa que deixa tudo mais bonito sem nem perceber." },
-      { date: "2025-12-18", text: "Encerrar mais um ano com você no coração é um presente que eu agradeço demais." }
+      { date: "2026-01-18", text: "Começar mais um ano com você no meu coração deixa tudo mais bonito." },
+      { date: "2026-02-18", text: "Mais um mês com você, e eu continuo encontrando novos motivos pra te amar." },
+      { date: "2026-03-18", text: "Cada mês ao seu lado faz meu coração ter ainda mais certeza de nós." },
+      { date: "2026-04-18", text: "Mais um mês com você… e eu te amo ainda mais." },
+      { date: "2026-05-18", text: "Você continua sendo a parte mais bonita dos meus pensamentos." },
+      { date: "2026-06-18", text: "Nosso tempo juntos só confirma o quanto você faz bem pro meu coração." },
+      { date: "2026-07-18", text: "Eu gosto de nós, gosto de você, e gosto de tudo que o seu amor desperta em mim." },
+      { date: "2026-08-18", text: "Mais um mês pra guardar, mais um motivo pra sorrir quando penso em você." },
+      { date: "2026-09-18", text: "Com você, até o tempo parece ter mais carinho." },
+      { date: "2026-10-18", text: "O nosso dia 18 sempre vai ter um lugar especial dentro de mim." },
+      { date: "2026-11-18", text: "Seu amor deixou marcas bonitas em cada parte da minha vida." },
+      { date: "2026-12-18", text: "Até aqui, cada mês com você foi uma lembrança linda sendo escrita aos poucos." }
     ];
+
+    const CURRENT_DATE = new Date("2026-04-18T12:00:00");
 
     const loginScreen = document.getElementById("loginScreen");
     const introScreen = document.getElementById("introScreen");
@@ -1221,7 +1201,6 @@
     const audio = document.getElementById("audio");
     const vinyl = document.getElementById("vinyl");
     const cover = document.getElementById("cover");
-    const musicTitle = document.getElementById("musicTitle");
     const prevMusicBtn = document.getElementById("prevMusicBtn");
     const toggleMusicBtn = document.getElementById("toggleMusicBtn");
     const nextMusicBtn = document.getElementById("nextMusicBtn");
@@ -1233,6 +1212,7 @@
     let musicIndex = 0;
     let currentFadeInterval = null;
     let experienceStarted = false;
+    let audioPrimed = false;
 
     function checkPassword() {
       const value = passwordInput.value.trim();
@@ -1248,6 +1228,8 @@
     function startExperience() {
       if (experienceStarted) return;
       experienceStarted = true;
+
+      primeAudio();
 
       loginScreen.classList.add("hidden");
       loginBg.classList.remove("active");
@@ -1278,6 +1260,22 @@
       }, 7350);
     }
 
+    function primeAudio() {
+      if (audioPrimed) return;
+      audioPrimed = true;
+
+      audio.src = playlist[musicIndex].src;
+      cover.src = playlist[musicIndex].cover;
+      audio.volume = 0;
+
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      }).catch(() => {
+        /* navegador pode bloquear */
+      });
+    }
+
     function showMainSite() {
       mainSite.classList.add("visible");
 
@@ -1298,7 +1296,7 @@
       cornerMessages.forEach((msg, index) => {
         setTimeout(() => {
           msg.classList.add("visible");
-        }, 850 + index * 400);
+        }, 850 + index * 350);
       });
     }
 
@@ -1362,18 +1360,20 @@
     }
 
     function getDeterministicDailyNumber() {
-      const now = new Date();
+      const now = CURRENT_DATE;
       const seed = Number(
         `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`
       );
       const x = Math.sin(seed) * 10000;
       const fraction = x - Math.floor(x);
-      return Math.floor(fraction * 401) + 100;
+      return Math.floor(fraction * 430) + 171;
     }
 
     function setupMonthlyMemory() {
       const visibleMemories = getVisibleMemories();
-      const current = visibleMemories.length ? visibleMemories[visibleMemories.length - 1] : monthlyMemories[0];
+      const current = visibleMemories.length
+        ? visibleMemories[visibleMemories.length - 1]
+        : monthlyMemories[0];
 
       currentMemoryText.textContent = current.text;
       currentMemoryDate.textContent = formatMemoryDate(current.date);
@@ -1384,10 +1384,8 @@
     }
 
     function getVisibleMemories() {
-      const now = new Date();
-
       return monthlyMemories
-        .filter(item => new Date(item.date + "T23:59:59") <= now)
+        .filter(item => new Date(item.date + "T23:59:59") <= CURRENT_DATE)
         .sort((a, b) => new Date(a.date) - new Date(b.date));
     }
 
@@ -1402,12 +1400,23 @@
     }
 
     function openMemoriesModal(memories) {
-      const listItems = memories.map(item => `
-        <li class="memory-item">
-          <strong>${formatMemoryDate(item.date)}</strong>
-          <span>${escapeHtml(item.text)}</span>
-        </li>
-      `).join("");
+      let contentList = "";
+
+      if (!memories.length) {
+        contentList = `
+          <li class="memory-item">
+            <strong>Ainda não chegou</strong>
+            <span>Quando o próximo dia 18 chegar, a primeira frase vai aparecer aqui ❤️</span>
+          </li>
+        `;
+      } else {
+        contentList = memories.map(item => `
+          <li class="memory-item">
+            <strong>${formatMemoryDate(item.date)}</strong>
+            <span>${escapeHtml(item.text)}</span>
+          </li>
+        `).join("");
+      }
 
       const overlay = createOverlay(`
         <div class="overlay-top">
@@ -1415,7 +1424,7 @@
           <button class="close-btn" data-close-overlay>✕</button>
         </div>
         <ul class="memory-list">
-          ${listItems}
+          ${contentList}
         </ul>
       `);
 
@@ -1515,10 +1524,8 @@
 
     function scheduleNextSlide() {
       clearTimeout(galleryTimer);
-
       const currentItem = galleryItems[currentSlide];
       const delay = currentItem.type === "video" ? 9000 : 5500;
-
       galleryTimer = setTimeout(nextSlide, delay);
     }
 
@@ -1599,7 +1606,6 @@
 
       audio.src = track.src;
       cover.src = track.cover;
-      musicTitle.textContent = track.title;
 
       const targetVolume = Number(volumeSlider.value) / 100;
 
@@ -1610,7 +1616,7 @@
           audio.volume = targetVolume;
         }
       }).catch(function () {
-        // Se o navegador bloquear autoplay, o usuário pode usar o player.
+        /* autoplay pode ser bloqueado */
       });
     }
 
