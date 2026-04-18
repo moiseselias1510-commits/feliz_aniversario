@@ -8,21 +8,18 @@
 
   <style>
     :root {
-      --bg-overlay-login: rgba(63, 42, 6, 0.18);
-      --bg-overlay-site: rgba(20, 38, 56, 0.22);
-      --glass: rgba(255, 255, 255, 0.18);
-      --glass-strong: rgba(255, 255, 255, 0.22);
-      --border: rgba(255, 255, 255, 0.28);
       --white: #ffffff;
-      --text-soft: rgba(255, 255, 255, 0.84);
-      --shadow: 0 14px 45px rgba(0, 0, 0, 0.18);
-      --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.12);
+      --text-soft: rgba(255, 255, 255, 0.86);
+      --glass: rgba(255, 255, 255, 0.16);
+      --glass-strong: rgba(255, 255, 255, 0.22);
+      --border: rgba(255, 255, 255, 0.26);
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.12);
       --accent: #f4b400;
+      --container: 1150px;
       --radius-xl: 30px;
       --radius-lg: 22px;
       --radius-md: 18px;
-      --radius-sm: 14px;
-      --container: 1140px;
     }
 
     * {
@@ -54,7 +51,7 @@
       background-repeat: no-repeat;
       opacity: 0;
       transform: scale(1.03);
-      transition: opacity 1s ease, transform 7s ease;
+      transition: opacity 1s ease, transform 6s ease;
       z-index: -3;
     }
 
@@ -75,8 +72,8 @@
 
     .page-bg.login::after {
       background:
-        radial-gradient(circle at top, rgba(255,255,255,0.16), transparent 40%),
-        linear-gradient(180deg, var(--bg-overlay-login), rgba(0,0,0,0.08));
+        radial-gradient(circle at top, rgba(255,255,255,0.18), transparent 40%),
+        linear-gradient(180deg, rgba(59, 42, 7, 0.16), rgba(0,0,0,0.08));
     }
 
     .page-bg.site {
@@ -85,8 +82,8 @@
 
     .page-bg.site::after {
       background:
-        radial-gradient(circle at top, rgba(255,255,255,0.13), transparent 40%),
-        linear-gradient(180deg, var(--bg-overlay-site), rgba(0,0,0,0.1));
+        radial-gradient(circle at top, rgba(255,255,255,0.12), transparent 40%),
+        linear-gradient(180deg, rgba(13, 30, 44, 0.16), rgba(0,0,0,0.08));
     }
 
     .glass {
@@ -98,10 +95,10 @@
     }
 
     .soft-glass {
-      background: rgba(255,255,255,0.14);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
       box-shadow: var(--shadow-soft);
     }
 
@@ -111,17 +108,17 @@
       place-items: center;
       padding: 24px;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .fade-up {
-      animation: fadeUp 0.9s ease both;
+      animation: fadeUp .9s ease both;
     }
 
     @keyframes fadeUp {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.98);
+        transform: translateY(20px) scale(.98);
       }
       to {
         opacity: 1;
@@ -130,13 +127,18 @@
     }
 
     @keyframes floatSoft {
-      0%, 100% { transform: translateY(0px); }
+      0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
     }
 
     @keyframes pulseSoft {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 212, 102, 0.28); }
-      50% { box-shadow: 0 0 0 10px rgba(255, 212, 102, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 212, 102, .24); }
+      50% { box-shadow: 0 0 0 12px rgba(255, 212, 102, 0); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .login-card {
@@ -148,7 +150,7 @@
 
     .login-emoji {
       font-size: 34px;
-      margin: 0 0 4px;
+      margin-bottom: 4px;
       animation: floatSoft 2.7s ease-in-out infinite;
     }
 
@@ -156,7 +158,6 @@
       margin: 0;
       font-size: clamp(1.6rem, 3vw, 2rem);
       font-weight: 700;
-      letter-spacing: 0.02em;
     }
 
     .login-card p {
@@ -166,7 +167,6 @@
     }
 
     .field {
-      width: 100%;
       margin-top: 20px;
       display: grid;
       gap: 12px;
@@ -176,24 +176,22 @@
       width: 100%;
       padding: 14px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.28);
+      border: 1px solid rgba(255,255,255,.28);
       outline: none;
       font-size: 16px;
       color: #2a2a2a;
-      background: rgba(255,255,255,0.94);
-      transition: transform .2s ease, box-shadow .2s ease;
+      background: rgba(255,255,255,.95);
     }
 
     .field input:focus {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
     }
 
     button {
       border: none;
       cursor: pointer;
       font: inherit;
-      transition: transform .2s ease, filter .2s ease, opacity .2s ease;
+      transition: transform .2s ease, filter .2s ease;
     }
 
     button:hover {
@@ -207,17 +205,17 @@
 
     .primary-btn {
       background: linear-gradient(135deg, #f5b400, #ffcd47);
-      color: white;
+      color: #fff;
       border-radius: 999px;
       padding: 13px 22px;
       font-weight: 700;
-      box-shadow: 0 10px 24px rgba(244, 180, 0, 0.28);
+      box-shadow: 0 10px 24px rgba(244,180,0,.28);
     }
 
     .secondary-btn {
-      background: rgba(255,255,255,0.16);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,.16);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.24);
       border-radius: 999px;
       padding: 12px 18px;
       font-weight: 600;
@@ -225,9 +223,9 @@
 
     .login-feedback {
       min-height: 22px;
-      font-size: 0.95rem;
+      font-size: .95rem;
       color: #fff4b8 !important;
-      margin-top: 4px !important;
+      margin-top: 8px !important;
     }
 
     /* INTRO */
@@ -237,8 +235,8 @@
       z-index: 20;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.7s ease;
-      background: rgba(10, 20, 26, 0.08);
+      transition: opacity .7s ease;
+      background: rgba(10, 20, 26, .08);
     }
 
     #introScreen.active {
@@ -256,31 +254,36 @@
       height: min(420px, 76vh);
       display: grid;
       place-items: center;
+      margin: auto;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .envelope-wrap {
       position: relative;
       width: min(320px, 78vw);
-      height: 230px;
-      transition: transform 0.7s ease, opacity 0.7s ease;
+      height: 240px;
+      transition: transform .7s ease, opacity .7s ease;
     }
 
     #introScreen.outro .envelope-wrap {
-      transform: translateY(-12px) scale(0.97);
+      transform: translateY(-12px) scale(.97);
       opacity: 0;
     }
 
     .envelope {
       position: absolute;
       inset: 0;
-      filter: drop-shadow(0 24px 40px rgba(0,0,0,0.18));
+      filter: drop-shadow(0 24px 40px rgba(0,0,0,.18));
     }
 
     .envelope-base {
       position: absolute;
-      inset: auto 0 0 0;
-      height: 170px;
-      border-radius: 0 0 26px 26px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 175px;
+      border-radius: 0 0 28px 28px;
       background: linear-gradient(145deg, #ffe8ef, #ffd2df);
       overflow: hidden;
     }
@@ -292,7 +295,7 @@
       inset: 0;
       background: linear-gradient(145deg, #ffc7d8, #ffdbe7);
       clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
-      opacity: 0.8;
+      opacity: .85;
     }
 
     .envelope-base::after {
@@ -305,8 +308,7 @@
       left: 0;
       right: 0;
       top: 28px;
-      height: 110px;
-      margin: auto;
+      height: 114px;
       background: linear-gradient(145deg, #ffbfd2, #ffdce7);
       clip-path: polygon(0 0, 50% 100%, 100% 0);
       transform-origin: top center;
@@ -320,22 +322,22 @@
       left: 50%;
       bottom: 28px;
       width: 82%;
-      height: 138px;
+      height: 140px;
       transform: translateX(-50%) translateY(26px);
       background: linear-gradient(180deg, #fffefc, #fff6f8);
       border-radius: 18px;
-      border: 1px solid rgba(215, 110, 150, 0.18);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-      transition: transform 1.2s cubic-bezier(.22, 1, .36, 1);
+      border: 1px solid rgba(215,110,150,.18);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      transition: transform 1.2s cubic-bezier(.22,1,.36,1);
       z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #bf5f86;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      font-size: 0.9rem;
+      font-size: .9rem;
     }
 
     .envelope.open .envelope-flap {
@@ -343,7 +345,7 @@
     }
 
     .envelope.open .envelope-paper {
-      transform: translateX(-50%) translateY(-20px);
+      transform: translateX(-50%) translateY(-18px);
     }
 
     .intro-note {
@@ -351,17 +353,17 @@
       left: 50%;
       width: min(330px, 86vw);
       padding: 14px 16px;
-      background: rgba(255,255,255,0.94);
+      background: rgba(255,255,255,.94);
       color: #5f3252;
       border-radius: 18px;
       line-height: 1.45;
       text-align: center;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.14);
-      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+      border: 1px solid rgba(255,255,255,.75);
       opacity: 0;
-      transform: translateX(-50%) translateY(28px) scale(0.96);
+      transform: translateX(-50%) translateY(28px) scale(.96);
       transition: opacity .75s ease, transform .75s ease;
-      font-size: 0.96rem;
+      font-size: .96rem;
     }
 
     .intro-note.show {
@@ -369,11 +371,11 @@
       transform: translateX(-50%) translateY(0) scale(1);
     }
 
-    .intro-note.note-1 { top: 10px; }
-    .intro-note.note-2 { top: 88px; }
-    .intro-note.note-3 { top: 166px; }
+    .intro-note.note-1 { top: 0; }
+    .intro-note.note-2 { top: 82px; }
+    .intro-note.note-3 { top: 164px; }
 
-    /* MAIN */
+    /* SITE */
     #mainSite {
       position: relative;
       z-index: 2;
@@ -394,7 +396,7 @@
     .reveal {
       opacity: 0;
       transform: translateY(18px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transition: opacity .9s ease, transform .9s ease;
     }
 
     .reveal.visible {
@@ -414,25 +416,23 @@
       margin: 0;
       font-size: clamp(2rem, 4vw, 3.1rem);
       font-weight: 800;
-      text-shadow: 0 8px 24px rgba(0,0,0,0.16);
+      text-shadow: 0 8px 24px rgba(0,0,0,.16);
     }
 
     .site-subtitle {
       margin: -6px 0 0;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255,255,255,.86);
       font-size: 1rem;
-      letter-spacing: 0.02em;
     }
 
     .thought-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       padding: 12px 18px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -444,7 +444,7 @@
 
     .main-grid {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-columns: 1.08fr .92fr;
       gap: 22px;
       align-items: start;
     }
@@ -458,9 +458,9 @@
 
     .eyebrow {
       margin: 0;
-      color: rgba(255,255,255,0.78);
-      font-size: 0.98rem;
-      letter-spacing: 0.03em;
+      color: rgba(255,255,255,.78);
+      font-size: .98rem;
+      letter-spacing: .03em;
       text-transform: uppercase;
     }
 
@@ -471,7 +471,7 @@
 
     .counter-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0,1fr));
       gap: 12px;
     }
 
@@ -479,9 +479,9 @@
       padding: 16px 12px;
       text-align: center;
       border-radius: 20px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
     }
 
     .counter-value {
@@ -494,14 +494,13 @@
 
     .counter-label {
       display: block;
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.86);
-      letter-spacing: 0.02em;
+      font-size: .9rem;
+      color: rgba(255,255,255,.86);
     }
 
     .hero-footnote {
       margin: 16px 0 0;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255,255,255,.86);
       line-height: 1.6;
     }
 
@@ -515,10 +514,10 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 10px;
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.85);
+      font-size: .95rem;
+      color: rgba(255,255,255,.85);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: .04em;
     }
 
     .current-memory {
@@ -526,19 +525,20 @@
       font-size: clamp(1.08rem, 2.2vw, 1.3rem);
       font-weight: 700;
       line-height: 1.7;
+      transition: opacity .6s ease, transform .6s ease;
     }
 
     .memory-date {
-      color: rgba(255,255,255,0.75);
-      font-size: 0.95rem;
+      color: rgba(255,255,255,.75);
+      font-size: .95rem;
       margin-bottom: 16px;
     }
 
     .memory-note {
       margin: 0 0 16px;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,.82);
       line-height: 1.6;
-      font-size: 0.97rem;
+      font-size: .97rem;
     }
 
     .gallery-top {
@@ -559,9 +559,9 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,.18);
       color: white;
-      border: 1px solid rgba(255,255,255,0.24);
+      border: 1px solid rgba(255,255,255,.24);
       font-size: 1rem;
     }
 
@@ -572,13 +572,12 @@
 
     .carousel-track {
       display: flex;
-      transition: transform 0.7s cubic-bezier(.22, 1, .36, 1);
+      transition: transform .7s cubic-bezier(.22,1,.36,1);
       will-change: transform;
     }
 
     .slide {
       min-width: 100%;
-      padding: 0;
     }
 
     .media-card {
@@ -586,7 +585,7 @@
       width: 100%;
       aspect-ratio: 16 / 10;
       border: none;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,.1);
       border-radius: 24px;
       overflow: hidden;
       display: block;
@@ -609,9 +608,9 @@
       bottom: 14px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(0,0,0,0.34);
+      background: rgba(0,0,0,.34);
       color: white;
-      font-size: 0.86rem;
+      font-size: .86rem;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     }
@@ -623,13 +622,11 @@
       top: 14px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
       color: white;
-      font-size: 0.85rem;
+      font-size: .85rem;
       z-index: 1;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
     }
 
     .dots {
@@ -643,9 +640,10 @@
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,.35);
       border: 0;
       padding: 0;
+      cursor: pointer;
     }
 
     .dot.active {
@@ -663,17 +661,17 @@
 
     .corner-message {
       position: fixed;
-      max-width: min(250px, 23vw);
+      max-width: min(255px, 24vw);
       padding: 12px 14px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,.9);
       color: #4f2d3f;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-      font-size: 0.92rem;
+      box-shadow: 0 12px 28px rgba(0,0,0,.12);
+      font-size: .92rem;
       line-height: 1.5;
       opacity: 0;
       transform: translateY(10px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transition: opacity .9s ease, transform .9s ease;
       pointer-events: auto;
     }
 
@@ -698,8 +696,8 @@
       gap: 12px;
       padding: 12px;
       border-radius: 24px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.24);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       box-shadow: var(--shadow);
@@ -726,7 +724,6 @@
       place-items: center;
       overflow: hidden;
       flex-shrink: 0;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06);
     }
 
     .vinyl img {
@@ -734,16 +731,11 @@
       height: 38px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.85);
+      border: 2px solid rgba(255,255,255,.85);
     }
 
     .vinyl.spin {
       animation: spin 4s linear infinite;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
 
     .player-info {
@@ -761,8 +753,8 @@
     }
 
     .player-subtitle {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.8);
+      font-size: .88rem;
+      color: rgba(255,255,255,.8);
       margin-top: -3px;
     }
 
@@ -776,14 +768,14 @@
     .player-controls .icon-btn {
       width: 38px;
       height: 38px;
-      font-size: 0.95rem;
+      font-size: .95rem;
     }
 
     .volume-wrap {
       display: flex;
       align-items: center;
       gap: 8px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,.85);
       width: 100%;
     }
 
@@ -799,7 +791,7 @@
       z-index: 30;
       display: grid;
       place-items: center;
-      background: rgba(7, 12, 18, 0.68);
+      background: rgba(7,12,18,.68);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       padding: 24px;
@@ -810,8 +802,8 @@
       max-height: 88vh;
       overflow: auto;
       border-radius: 28px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
       box-shadow: var(--shadow);
       padding: 20px;
     }
@@ -834,9 +826,9 @@
       min-width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,.18);
       color: white;
-      border: 1px solid rgba(255,255,255,0.24);
+      border: 1px solid rgba(255,255,255,.24);
       font-size: 1rem;
     }
 
@@ -851,28 +843,28 @@
     .memory-item {
       padding: 15px 16px;
       border-radius: 18px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.16);
     }
 
     .memory-item strong {
       display: block;
       margin-bottom: 6px;
       color: #fff7cc;
-      font-size: 0.96rem;
+      font-size: .96rem;
     }
 
     .memory-item span {
       display: block;
       line-height: 1.6;
-      color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,.92);
     }
 
     .lightbox-media {
       width: 100%;
       border-radius: 22px;
       overflow: hidden;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,.08);
     }
 
     .lightbox-media img,
@@ -881,14 +873,13 @@
       max-height: 74vh;
       object-fit: contain;
       display: block;
-      background: rgba(0,0,0,0.24);
+      background: rgba(0,0,0,.24);
     }
 
     body.modal-open {
       overflow: hidden;
     }
 
-    /* MOBILE */
     @media (max-width: 980px) {
       .main-grid {
         grid-template-columns: 1fr;
@@ -905,7 +896,7 @@
       }
 
       .counter-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0,1fr));
       }
 
       #cornerMessages {
@@ -949,7 +940,7 @@
       }
 
       .intro-note {
-        font-size: 0.92rem;
+        font-size: .92rem;
       }
     }
 
@@ -966,7 +957,7 @@
       }
 
       .counter-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0,1fr));
         gap: 10px;
       }
 
@@ -975,7 +966,7 @@
       }
 
       .thought-pill {
-        font-size: 0.92rem;
+        font-size: .92rem;
         padding: 11px 14px;
       }
 
@@ -991,7 +982,6 @@
 </head>
 <body>
 
-  <!-- Fundos -->
   <div class="page-bg login active" id="loginBg"></div>
   <div class="page-bg site" id="siteBg"></div>
 
@@ -1011,7 +1001,7 @@
     </div>
   </section>
 
-  <!-- INTRO COM ENVELOPE -->
+  <!-- INTRO -->
   <section id="introScreen" class="hidden">
     <div class="intro-scene">
       <div class="envelope-wrap">
@@ -1081,7 +1071,7 @@
           </div>
           <div class="memory-date" id="currentMemoryDate">18 de outubro</div>
           <p class="memory-note">
-            Todo dia 18, uma nova lembrança pode entrar aqui, enquanto as anteriores continuam guardadas com carinho.
+            Todo dia 18, uma nova lembrança entra aqui, enquanto as anteriores continuam guardadas com carinho.
           </p>
           <button class="secondary-btn" id="openMemoriesBtn">Ver nossas memórias ❤️</button>
         </article>
@@ -1175,11 +1165,6 @@
       { src: "musica6.mp3", cover: "capa6.png", title: "Nossa música 6" }
     ];
 
-    /*
-      FRASES MENSAIS
-      Para adicionar novas frases, basta continuar esse array com:
-      { date: "AAAA-MM-18", text: "Sua frase aqui" }
-    */
     const monthlyMemories = [
       { date: "2024-10-18", text: "Começou o nosso nós, e desde então meu coração aprendeu um novo lar." },
       { date: "2024-11-18", text: "Um mês depois, eu já tinha ainda mais certeza de que você era especial pra mim." },
@@ -1195,19 +1180,7 @@
       { date: "2025-09-18", text: "Você transformou pequenos momentos em memórias que eu quero levar comigo sempre." },
       { date: "2025-10-18", text: "Mais um ciclo nosso, mais uma prova de que meu coração fez a escolha certa." },
       { date: "2025-11-18", text: "Você é aquele tipo de pessoa que deixa tudo mais bonito sem nem perceber." },
-      { date: "2025-12-18", text: "Encerrar mais um ano com você no coração é um presente que eu agradeço demais." },
-      { date: "2026-01-18", text: "E eu sigo aqui, te escolhendo de novo, com o mesmo carinho e ainda mais amor." },
-      { date: "2026-02-18", text: "Se amar você já era lindo no começo, hoje é ainda mais especial." },
-      { date: "2026-03-18", text: "Todo mês que passa me lembra que viver isso com você vale muito a pena." },
-      { date: "2026-04-18", text: "Mais um mês com você… e eu te amo ainda mais." },
-      { date: "2026-05-18", text: "Você continua sendo a parte mais bonita dos meus pensamentos." },
-      { date: "2026-06-18", text: "Nosso tempo juntos só confirma o quanto você faz bem pro meu coração." },
-      { date: "2026-07-18", text: "Eu gosto de nós, gosto de você, e gosto de tudo que o seu amor desperta em mim." },
-      { date: "2026-08-18", text: "Mais um mês pra guardar, mais um motivo pra sorrir quando penso em você." },
-      { date: "2026-09-18", text: "Com você, até o tempo parece ter mais carinho." },
-      { date: "2026-10-18", text: "O nosso dia 18 sempre vai ter um lugar especial dentro de mim." },
-      { date: "2026-11-18", text: "Seu amor deixou marcas bonitas em cada parte da minha vida." },
-      { date: "2026-12-18", text: "Até aqui, cada mês com você foi uma lembrança linda sendo escrita aos poucos." }
+      { date: "2025-12-18", text: "Encerrar mais um ano com você no coração é um presente que eu agradeço demais." }
     ];
 
     const loginScreen = document.getElementById("loginScreen");
@@ -1281,6 +1254,7 @@
       siteBg.classList.add("active");
 
       introScreen.classList.remove("hidden");
+
       requestAnimationFrame(() => {
         introScreen.classList.add("active");
       });
@@ -1316,11 +1290,15 @@
 
       const revealItems = document.querySelectorAll(".reveal");
       revealItems.forEach((item, index) => {
-        setTimeout(() => item.classList.add("visible"), 180 + index * 240);
+        setTimeout(() => {
+          item.classList.add("visible");
+        }, 180 + index * 240);
       });
 
       cornerMessages.forEach((msg, index) => {
-        setTimeout(() => msg.classList.add("visible"), 850 + index * 400);
+        setTimeout(() => {
+          msg.classList.add("visible");
+        }, 850 + index * 400);
       });
     }
 
@@ -1365,8 +1343,8 @@
       }
 
       if (days < 0) {
-        const previousMonth = new Date(end.getFullYear(), end.getMonth(), 0);
-        days += previousMonth.getDate();
+        const lastMonthDate = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+        days += lastMonthDate;
         months--;
       }
 
@@ -1385,7 +1363,9 @@
 
     function getDeterministicDailyNumber() {
       const now = new Date();
-      const seed = Number(`${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`);
+      const seed = Number(
+        `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`
+      );
       const x = Math.sin(seed) * 10000;
       const fraction = x - Math.floor(x);
       return Math.floor(fraction * 401) + 100;
@@ -1393,18 +1373,19 @@
 
     function setupMonthlyMemory() {
       const visibleMemories = getVisibleMemories();
-      const current = visibleMemories[visibleMemories.length - 1] || monthlyMemories[0];
+      const current = visibleMemories.length ? visibleMemories[visibleMemories.length - 1] : monthlyMemories[0];
 
       currentMemoryText.textContent = current.text;
       currentMemoryDate.textContent = formatMemoryDate(current.date);
 
-      openMemoriesBtn.addEventListener("click", () => {
+      openMemoriesBtn.onclick = function () {
         openMemoriesModal(visibleMemories);
-      });
+      };
     }
 
     function getVisibleMemories() {
       const now = new Date();
+
       return monthlyMemories
         .filter(item => new Date(item.date + "T23:59:59") <= now)
         .sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -1469,7 +1450,7 @@
           button.appendChild(video);
         }
 
-        button.addEventListener("click", () => {
+        button.addEventListener("click", function () {
           openLightbox(item);
         });
 
@@ -1480,7 +1461,7 @@
         dot.className = `dot ${index === 0 ? "active" : ""}`;
         dot.type = "button";
         dot.setAttribute("aria-label", `Ir para item ${index + 1}`);
-        dot.addEventListener("click", () => {
+        dot.addEventListener("click", function () {
           goToSlide(index);
         });
 
@@ -1495,7 +1476,7 @@
     function updateCarousel() {
       carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
 
-      [...carouselDots.children].forEach((dot, index) => {
+      Array.from(carouselDots.children).forEach((dot, index) => {
         dot.classList.toggle("active", index === currentSlide);
       });
 
@@ -1503,10 +1484,13 @@
     }
 
     function syncGalleryVideos() {
-      const videos = carouselTrack.querySelectorAll("video");
-      videos.forEach((video, index) => {
-        const parentSlideIndex = [...carouselTrack.children].findIndex(slide => slide.contains(video));
-        if (parentSlideIndex === currentSlide) {
+      const slides = Array.from(carouselTrack.children);
+
+      slides.forEach((slide, index) => {
+        const video = slide.querySelector("video");
+        if (!video) return;
+
+        if (index === currentSlide) {
           video.currentTime = 0;
           video.play().catch(() => {});
         } else {
@@ -1531,8 +1515,10 @@
 
     function scheduleNextSlide() {
       clearTimeout(galleryTimer);
+
       const currentItem = galleryItems[currentSlide];
       const delay = currentItem.type === "video" ? 9000 : 5500;
+
       galleryTimer = setTimeout(nextSlide, delay);
     }
 
@@ -1551,7 +1537,7 @@
         <div class="lightbox-media">
           ${mediaHtml}
         </div>
-      `, () => {
+      `, function () {
         scheduleNextSlide();
       });
 
@@ -1572,21 +1558,23 @@
       function closeOverlay() {
         overlay.remove();
         document.body.classList.remove("modal-open");
+        document.removeEventListener("keydown", escHandler);
         if (typeof onClose === "function") onClose();
       }
 
-      overlay.addEventListener("click", (event) => {
+      function escHandler(e) {
+        if (e.key === "Escape") {
+          closeOverlay();
+        }
+      }
+
+      overlay.addEventListener("click", function (event) {
         if (event.target === overlay || event.target.closest("[data-close-overlay]")) {
           closeOverlay();
         }
       });
 
-      document.addEventListener("keydown", function escHandler(e) {
-        if (e.key === "Escape") {
-          closeOverlay();
-          document.removeEventListener("keydown", escHandler);
-        }
-      });
+      document.addEventListener("keydown", escHandler);
 
       return overlay;
     }
@@ -1596,9 +1584,13 @@
       audio.volume = 0;
       loadTrack(musicIndex, true);
 
-      audio.addEventListener("ended", nextMusic);
-      audio.addEventListener("play", () => vinyl.classList.add("spin"));
-      audio.addEventListener("pause", () => vinyl.classList.remove("spin"));
+      audio.onended = nextMusic;
+      audio.onplay = function () {
+        vinyl.classList.add("spin");
+      };
+      audio.onpause = function () {
+        vinyl.classList.remove("spin");
+      };
     }
 
     function loadTrack(index, fadeIn = false) {
@@ -1611,18 +1603,18 @@
 
       const targetVolume = Number(volumeSlider.value) / 100;
 
-      audio.play().then(() => {
+      audio.play().then(function () {
         if (fadeIn) {
           fadeAudioTo(targetVolume, 1400);
         } else {
           audio.volume = targetVolume;
         }
-      }).catch(() => {
-        // Se o navegador bloquear, o usuário já pode apertar play no player.
+      }).catch(function () {
+        // Se o navegador bloquear autoplay, o usuário pode usar o player.
       });
     }
 
-    function fadeAudioTo(target, duration = 1200) {
+    function fadeAudioTo(target, duration) {
       clearInterval(currentFadeInterval);
 
       const steps = 24;
@@ -1631,7 +1623,7 @@
       const diff = target - start;
       let currentStep = 0;
 
-      currentFadeInterval = setInterval(() => {
+      currentFadeInterval = setInterval(function () {
         currentStep++;
         audio.volume = Math.max(0, Math.min(1, start + (diff * currentStep / steps)));
 
@@ -1644,7 +1636,7 @@
 
     function toggleMusic() {
       if (audio.paused) {
-        audio.play().catch(() => {});
+        audio.play().catch(function () {});
       } else {
         audio.pause();
       }
@@ -1669,12 +1661,23 @@
 
     enterBtn.addEventListener("click", checkPassword);
 
-    passwordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") checkPassword();
+    passwordInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        checkPassword();
+      }
     });
 
     prevSlideBtn.addEventListener("click", prevSlide);
     nextSlideBtn.addEventListener("click", nextSlide);
 
     prevMusicBtn.addEventListener("click", prevMusic);
-    nextMusicBtn.addEventListener("click",
+    nextMusicBtn.addEventListener("click", nextMusic);
+    toggleMusicBtn.addEventListener("click", toggleMusic);
+
+    volumeSlider.addEventListener("input", function () {
+      const value = Number(volumeSlider.value) / 100;
+      audio.volume = value;
+    });
+  </script>
+</body>
+</html>
