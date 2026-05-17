@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Feliz Aniversario Baby</title>
+  <title>Feliz Aniversário Baby</title>
 
   <style>
     :root {
@@ -505,6 +505,7 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .gallery-title {
@@ -518,6 +519,13 @@
     .gallery-actions {
       display: flex;
       gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .story-open-btn {
+      white-space: nowrap;
     }
 
     .icon-btn {
@@ -862,6 +870,106 @@
       overflow: hidden;
     }
 
+    /* STORY */
+    .story-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: linear-gradient(180deg,#18001f,#2b0036,#46004f);
+      overflow: hidden;
+      padding: 18px;
+    }
+
+    .story-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .story-chat {
+      width: 100%;
+      max-width: 560px;
+      height: min(95vh, 920px);
+      overflow-y: auto;
+      border-radius: 30px;
+      padding: 18px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      color: white;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 20px 50px rgba(0,0,0,.28);
+    }
+
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .story-title {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .story-message {
+      max-width: 80%;
+      padding: 14px;
+      border-radius: 20px;
+      margin: 12px 0;
+      line-height: 1.5;
+    }
+
+    .story-left {
+      background: #57215d;
+    }
+
+    .story-right {
+      background: #ff1493;
+      margin-left: auto;
+    }
+
+    .story-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .story-gallery {
+      margin-top: 20px;
+    }
+
+    .story-gallery img {
+      width: 100%;
+      border-radius: 20px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .story-btn {
+      border: none;
+      background: #ff1493;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .story-btn-outline {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+
     @media (max-width: 980px) {
       .content-grid {
         grid-template-columns: 1fr;
@@ -932,6 +1040,25 @@
       .intro-note {
         font-size: .92rem;
       }
+
+      .gallery-top {
+        align-items: stretch;
+      }
+
+      .gallery-actions {
+        justify-content: flex-start;
+      }
+
+      .story-chat {
+        height: 100vh;
+        border-radius: 0;
+        max-width: 100%;
+      }
+
+      .story-message {
+        max-width: 88%;
+        font-size: 15px;
+      }
     }
 
     @media (max-width: 520px) {
@@ -971,90 +1098,23 @@
         width: 56px;
         height: 56px;
       }
+
+      .story-overlay {
+        padding: 0;
+      }
+
+      .story-title {
+        font-size: 24px;
+      }
+
+      .story-actions {
+        flex-direction: column;
+      }
+
+      .story-btn {
+        width: 100%;
+      }
     }
-    .story-overlay{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:linear-gradient(180deg,#18001f,#2b0036,#46004f);
-  overflow:hidden;
-}
-
-.story-container{
-  position:relative;
-  width:100%;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:10px;
-}
-
-.story-chat{
-  width:100%;
-  max-width:520px;
-  height:95vh;
-  overflow-y:auto;
-  border-radius:30px;
-  padding:18px;
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(15px);
-  color:white;
-}
-
-.story-title{
-  text-align:center;
-  font-size:30px;
-  font-weight:bold;
-  margin-bottom:20px;
-}
-
-.story-message{
-  max-width:80%;
-  padding:14px;
-  border-radius:20px;
-  margin:12px 0;
-  line-height:1.5;
-}
-
-.story-left{
-  background:#57215d;
-}
-
-.story-right{
-  background:#ff1493;
-  margin-left:auto;
-}
-
-.story-gallery img{
-  width:100%;
-  border-radius:20px;
-  margin-bottom:15px;
-}
-
-.story-btn{
-  border:none;
-  background:#ff1493;
-  color:white;
-  padding:15px 22px;
-  border-radius:30px;
-  cursor:pointer;
-}
-
-@media (max-width:700px){
-
-  .story-chat{
-    height:100vh;
-    border-radius:0;
-    max-width:100%;
-  }
-
-  .story-message{
-    max-width:88%;
-    font-size:15px;
-  }
-
-}
   </style>
 </head>
 <body>
@@ -1066,8 +1126,8 @@
   <section class="screen" id="loginScreen">
     <div class="login-card glass fade-up">
       <div class="login-emoji">🌻</div>
-      <h1>Feliz Aniversario, meu amor</h1>
-      <p>Fiz para nunca esquecermos do nosso aniversário de namoro.</p>
+      <h1>Feliz Aniversário, meu amor</h1>
+      <p>Fiz isso para nunca esquecermos do nosso aniversário de namoro.</p>
 
       <div class="field">
         <input type="password" id="passwordInput" placeholder="Senha" />
@@ -1140,6 +1200,9 @@
           <div class="gallery-title">Nossas fotos</div>
 
           <div class="gallery-actions">
+            <button class="secondary-btn story-open-btn" id="openStoryBtn">
+              Nossa História ✨
+            </button>
             <button class="icon-btn" id="prevSlideBtn" aria-label="Anterior">⟨</button>
             <button class="icon-btn" id="nextSlideBtn" aria-label="Próximo">⟩</button>
           </div>
@@ -1157,18 +1220,11 @@
         <p class="current-memory" id="currentMemoryText">Cada dia ao teu lado faz de mim uma pessoa melhor</p>
         <p class="memory-date" id="currentMemoryDate">18 de abril de 2026</p>
 
-       <div class="memory-actions" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
-
-  <button class="secondary-btn" id="openMemoriesBtn">
-    Ver nossas memórias ❤️
-  </button>
-
-  <button class="secondary-btn" id="openStoryBtn">
-    Nossa História ✨
-  </button>
-
-</div>
-        
+        <div class="memory-actions">
+          <button class="secondary-btn" id="openMemoriesBtn">
+            Ver nossas memórias ❤️
+          </button>
+        </div>
       </article>
     </section>
   </main>
@@ -1184,11 +1240,11 @@
     </div>
 
     <div class="corner-message corner-bl">
-      Feliz Aniversario, vida.
+      Feliz Aniversário, vida.
     </div>
 
     <div class="corner-message corner-br">
-      Esse relogio marca o tempo que estamos juntos e todo esse tempo que tenho passado com você tem sido um dos melhores momentos da minha vida, Eu te amo, Espero que esse relogio nunca pare de marcar o tempo!!!
+      Esse relógio marca o tempo que estamos juntos e todo esse tempo que tenho passado com você tem sido um dos melhores momentos da minha vida. Eu te amo. Espero que esse relógio nunca pare de marcar o tempo!!!
     </div>
   </section>
 
@@ -1210,99 +1266,61 @@
     </div>
   </div>
 
-  <audio id="audio" preload="auto"></audio>
-  <audio id="storyMusic" loop>
-  <source src="historia-tranquilo.mpeg" type="audio/mpeg">
-</audio>
+  <!-- MODAL NOSSA HISTÓRIA -->
+  <div class="story-overlay hidden" id="storyOverlay" aria-hidden="true">
+    <div class="story-container">
+      <div class="story-chat">
+        <div class="story-header">
+          <div class="story-title">❤️ Nossa História ❤️</div>
+          <button class="close-btn" id="closeStoryBtn" aria-label="Fechar história">✕</button>
+        </div>
 
-<script>
+        <div class="story-message story-left">
+          <b>Eloa</b><br>
+          Oie, sou a Frade, sou do seu ônibus
+        </div>
 
-const openStoryBtn = document.getElementById("openStoryBtn");
-const storyMusic = document.getElementById("storyMusic");
+        <div class="story-message story-left">
+          <b>Eloa</b><br>
+          Eu te achei muito bonito
+        </div>
 
-console.log(openStoryBtn);
+        <div class="story-message story-right">
+          <b>Moisés</b><br>
+          Claro que podemos
+        </div>
 
-openStoryBtn.addEventListener("click", function(){
+        <div class="story-actions">
+          <button class="story-btn" id="showGalleryBtn">
+            📖 Ver mensagens originais
+          </button>
 
-  storyMusic.play();
+          <button class="story-btn story-btn-outline hidden" id="hideGalleryBtn">
+            🙈 Ocultar mensagens
+          </button>
+        </div>
 
-  const overlay = document.createElement("div");
-
-  overlay.className = "story-overlay";
-
-  overlay.innerHTML = `
-  
-  <div class="story-container">
-
-    <div class="story-chat">
-
-      <div class="story-title">
-        ❤️ Nossa História ❤️
+        <div class="story-gallery hidden" id="storyGallery">
+          <img src="historia1.jpg" alt="Mensagem da história 1">
+          <img src="historia2.jpg" alt="Mensagem da história 2">
+          <img src="historia3.jpg" alt="Mensagem da história 3">
+          <img src="historia4.jpg" alt="Mensagem da história 4">
+          <img src="historia5.jpg" alt="Mensagem da história 5">
+          <img src="historia6.jpg" alt="Mensagem da história 6">
+        </div>
       </div>
-
-      <div class="story-message story-left">
-        <b>Eloa</b><br>
-        Oie, sou a Frade, sou do seu ônibus
-      </div>
-
-      <div class="story-message story-left">
-        <b>Eloa</b><br>
-        Eu te achei muito bonito
-      </div>
-
-      <div class="story-message story-right">
-        <b>Moisés</b><br>
-        Claro que podemos
-      </div>
-
-      <br>
-
-      <button class="story-btn" id="showGalleryBtn">
-        📖 Ver mensagens originais
-      </button>
-
-      <button class="story-btn" id="closeStoryBtn" style="margin-left:10px;">
-        ⬅ Voltar
-      </button>
-
-      <div class="story-gallery" id="storyGallery" style="display:none; margin-top:20px;">
-
-        <img src="historia1.jpg">
-        <img src="historia2.jpg">
-        <img src="historia3.jpg">
-        <img src="historia4.jpg">
-        <img src="historia5.jpg">
-        <img src="historia6.jpg">
-
-      </div>
-
     </div>
-
   </div>
-  `;
 
-  document.body.appendChild(overlay);
+  <audio id="audio" preload="auto"></audio>
 
-  document.getElementById("showGalleryBtn").onclick = function(){
+  <audio id="storyMusic" loop>
+    <source src="historia-tranquilo.mpeg" type="audio/mpeg">
+  </audio>
 
-    document.getElementById("storyGallery").style.display = "block";
-
-  };
-
-  document.getElementById("closeStoryBtn").onclick = function(){
-
-    storyMusic.pause();
-
-    storyMusic.currentTime = 0;
-
-    overlay.remove();
-
-  };
-
-});
-
-const senha = "181024";
-const inicio = new Date(2024, 9, 18);
+  <script>
+    const senha = "181024";
+    const inicio = new Date(2024, 9, 18);
 
     const galleryItems = [
       { type: "img", src: "foto1.png", alt: "Foto 1" },
@@ -1333,23 +1351,19 @@ const inicio = new Date(2024, 9, 18);
       { src: "musica15.mp3", cover: "capa15.png" }
     ];
 
-    /* FRASES MENSAIS DE 2026
-       FUTURAS NÃO APARECEM NO HISTÓRICO.
-       A FRASE ATUAL É SEMPRE A ÚLTIMA QUE JÁ CHEGOU.
-    */
     const monthlyMemories = [
       { date: "2026-01-18", text: "Começar mais um ano com você na minha vida é o melhor presente de Deus para mim." },
       { date: "2026-02-18", text: "⁠Se por te beijar tivesse que ir depois para o inferno, eu faria isso. Assim poderia me gabar aos demônios de ter estado no paraíso sem nunca entrar." },
       { date: "2026-03-18", text: "Você é a melhor escolha que eu ja fiz na vida." },
-      { date: "2026-04-18", text: "O que eu sinto por vc é tão profundo e imenso que nem mesmo uma galáxia inteira, com seus bilhões de estrelas e sua vestidão infinita, seria capaz de comparar a grandeza a grandeza desse amor que cresce em mim a cada dia. EU TE AMO" },
+      { date: "2026-04-18", text: "O que eu sinto por vc é tão profundo e imenso que nem mesmo uma galáxia inteira, com seus bilhões de estrelas e sua vastidão infinita, seria capaz de comparar a grandeza desse amor que cresce em mim a cada dia. EU TE AMO" },
       { date: "2026-05-18", text: "A cada dia com você ao meu lado, meu amor por você só aumenta." },
       { date: "2026-06-18", text: "Desde nossa primeira conversa eu ja sabia que você seria o amor da minha vida." },
-      { date: "2026-07-18", text: "Um dos meu maiores desejos ate agora é que você seja mais feliz e melhore da anemia, espero que você ja tenha melhorado" },
-      { date: "2026-08-18", text: "Te amar é como olha para o céu infinito e saber que; entre tantas estrelas, só uma me fez querer fica..." },
-      { date: "2026-09-18", text: "Queria que o tempo parace quando eu estivesse com você, por que cada segunda ao seu lado é pouco pra mim" },
-      { date: "2026-10-18", text: "Mesmo que eu seja dificil de entender e me expressar, espero que nunca se esqueça que você é tudo pra mim" },
+      { date: "2026-07-18", text: "Um dos meus maiores desejos até agora é que você seja mais feliz e melhore da anemia, espero que você já tenha melhorado." },
+      { date: "2026-08-18", text: "Te amar é como olhar para o céu infinito e saber que; entre tantas estrelas, só uma me fez querer ficar..." },
+      { date: "2026-09-18", text: "Queria que o tempo parasse quando eu estivesse com você, porque cada segundo ao seu lado é pouco pra mim." },
+      { date: "2026-10-18", text: "Mesmo que eu seja difícil de entender e me expressar, espero que nunca se esqueça que você é tudo pra mim." },
       { date: "2026-11-18", text: "Acho que nem mesmo se eu viver milhares de anos vou poder achar palavras que descrevam o tamanho do meu amor por você." },
-      { date: "2026-12-18", text: "Já estamos no fim do ano, espero que eu tenha feito seu ano pelo menos um pouquinho melhor, EU TE AMO" }
+      { date: "2026-12-18", text: "Já estamos no fim do ano, espero que eu tenha feito seu ano pelo menos um pouquinho melhor. EU TE AMO" }
     ];
 
     const CURRENT_DATE = new Date();
@@ -1386,10 +1400,18 @@ const inicio = new Date(2024, 9, 18);
     const prevSlideBtn = document.getElementById("prevSlideBtn");
     const nextSlideBtn = document.getElementById("nextSlideBtn");
 
+    const openStoryBtn = document.getElementById("openStoryBtn");
+    const storyOverlay = document.getElementById("storyOverlay");
+    const closeStoryBtn = document.getElementById("closeStoryBtn");
+    const showGalleryBtn = document.getElementById("showGalleryBtn");
+    const hideGalleryBtn = document.getElementById("hideGalleryBtn");
+    const storyGallery = document.getElementById("storyGallery");
+
     const cornerMessages = document.querySelectorAll(".corner-message");
 
     const player = document.getElementById("player");
     const audio = document.getElementById("audio");
+    const storyMusic = document.getElementById("storyMusic");
     const vinyl = document.getElementById("vinyl");
     const cover = document.getElementById("cover");
     const prevMusicBtn = document.getElementById("prevMusicBtn");
@@ -1404,6 +1426,7 @@ const inicio = new Date(2024, 9, 18);
     let currentFadeInterval = null;
     let experienceStarted = false;
     let audioPrimed = false;
+    let wasMainMusicPlayingBeforeStory = false;
 
     function checkPassword() {
       const value = passwordInput.value.trim();
@@ -1462,9 +1485,7 @@ const inicio = new Date(2024, 9, 18);
       audio.play().then(() => {
         audio.pause();
         audio.currentTime = 0;
-      }).catch(() => {
-        /* navegador pode bloquear */
-      });
+      }).catch(() => {});
     }
 
     function showMainSite() {
@@ -1575,13 +1596,13 @@ const inicio = new Date(2024, 9, 18);
     }
 
     function getVisibleMemories() {
-     return monthlyMemories
-    .filter(item => {
-      const memoryDate = new Date(item.date + "T00:00:00");
-      return memoryDate <= CURRENT_DATE;
-    })
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
-}
+      return monthlyMemories
+        .filter(item => {
+          const memoryDate = new Date(item.date + "T00:00:00");
+          return memoryDate <= CURRENT_DATE;
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
 
     function formatMemoryDate(dateString) {
       const [year, month, day] = dateString.split("-").map(Number);
@@ -1809,9 +1830,7 @@ const inicio = new Date(2024, 9, 18);
         } else {
           audio.volume = targetVolume;
         }
-      }).catch(function () {
-        /* autoplay pode ser bloqueado */
-      });
+      }).catch(function () {});
     }
 
     function fadeAudioTo(target, duration) {
@@ -1850,6 +1869,54 @@ const inicio = new Date(2024, 9, 18);
       loadTrack(musicIndex - 1, true);
     }
 
+    function openStory() {
+      clearTimeout(galleryTimer);
+
+      wasMainMusicPlayingBeforeStory = !audio.paused;
+      if (wasMainMusicPlayingBeforeStory) {
+        audio.pause();
+      }
+
+      storyOverlay.classList.remove("hidden");
+      storyOverlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+
+      storyMusic.currentTime = 0;
+      storyMusic.volume = 0.55;
+      storyMusic.play().catch(() => {});
+    }
+
+    function closeStory() {
+      storyOverlay.classList.add("hidden");
+      storyOverlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+
+      storyMusic.pause();
+      storyMusic.currentTime = 0;
+
+      if (wasMainMusicPlayingBeforeStory) {
+        audio.play().catch(() => {});
+      }
+
+      scheduleNextSlide();
+    }
+
+    function showStoryGallery() {
+      storyGallery.classList.remove("hidden");
+      showGalleryBtn.classList.add("hidden");
+      hideGalleryBtn.classList.remove("hidden");
+
+      setTimeout(() => {
+        storyGallery.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 120);
+    }
+
+    function hideStoryGallery() {
+      storyGallery.classList.add("hidden");
+      hideGalleryBtn.classList.add("hidden");
+      showGalleryBtn.classList.remove("hidden");
+    }
+
     function escapeHtml(text) {
       return String(text)
         .replaceAll("&", "&amp;")
@@ -1877,6 +1944,23 @@ const inicio = new Date(2024, 9, 18);
     volumeSlider.addEventListener("input", function () {
       const value = Number(volumeSlider.value) / 100;
       audio.volume = value;
+    });
+
+    openStoryBtn.addEventListener("click", openStory);
+    closeStoryBtn.addEventListener("click", closeStory);
+    showGalleryBtn.addEventListener("click", showStoryGallery);
+    hideGalleryBtn.addEventListener("click", hideStoryGallery);
+
+    storyOverlay.addEventListener("click", function (event) {
+      if (event.target === storyOverlay) {
+        closeStory();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !storyOverlay.classList.contains("hidden")) {
+        closeStory();
+      }
     });
   </script>
 </body>
