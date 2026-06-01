@@ -1571,6 +1571,7 @@
     let audioPrimed = false;
     let musicHintTimer = null;
     let musicHintShown = false;
+    let trackErrorSkipLock = false;
 
     function checkPassword() {
       const value = passwordInput.value.trim();
@@ -1657,7 +1658,6 @@
         }, 850 + index * 350);
       });
 
-      /* 1 segundo da transição do site + 5 segundos depois */
       setTimeout(showMusicHint, 6000);
     }
 
@@ -1957,12 +1957,42 @@
           type="button"
           data-index="${index}"
         >
-          <span class="playlist-item-number">${String(index + 1).padStart(2, "0")}</span>
-          <span class="playlist-item-title">${escapeHtml(track.title)}</span>
+          <span class="playlist-item-cover">
+            <img src="${track.cover}" alt="${escapeHtml(track.title)}">
+          </span>
+
+          <span class="playlist-item-title-wrap">
+            <span class="playlist-item-title">
+              <span class="playlist-item-title-text">${escapeHtml(track.title)}</span>
+            </span>
+          </span>
         </button>
       `).join("");
 
+      requestAnimationFrame(updatePlaylistMarquees);
       updateTrackInfo();
+    }
+
+    function updatePlaylistMarquees() {
+      const titleElements = playlistList.querySelectorAll(".playlist-item-title");
+
+      titleElements.forEach((titleEl) => {
+        const textEl = titleEl.querySelector(".playlist-item-title-text");
+        if (!textEl) return;
+
+        titleEl.classList.remove("is-marquee");
+        titleEl.style.removeProperty("--marquee-distance");
+        titleEl.style.removeProperty("--marquee-duration");
+
+        const hiddenWidth = Math.ceil(textEl.scrollWidth - titleEl.clientWidth);
+
+        if (hiddenWidth > 8) {
+          const duration = Math.max(6, Math.min(16, hiddenWidth / 18));
+          titleEl.classList.add("is-marquee");
+          titleEl.style.setProperty("--marquee-distance", `${hiddenWidth}px`);
+          titleEl.style.setProperty("--marquee-duration", `${duration}s`);
+        }
+      });
     }
 
     function updateTrackInfo() {
@@ -1970,11 +2000,17 @@
       if (!track) return;
 
       currentTrackName.textContent = track.title;
+      cover.src = track.cover;
+      cover.alt = `Capa de ${track.title}`;
 
       const items = playlistList.querySelectorAll(".playlist-item");
       items.forEach((item, index) => {
         item.classList.toggle("active", index === musicIndex);
       });
+
+      if (playlistPanel.classList.contains("open")) {
+        requestAnimationFrame(updatePlaylistMarquees);
+      }
     }
 
     function openPlaylist() {
@@ -1983,10 +2019,14 @@
       playlistPanel.classList.add("open");
       playlistPanel.setAttribute("aria-hidden", "false");
 
-      const activeItem = playlistList.querySelector(".playlist-item.active");
-      if (activeItem) {
-        activeItem.scrollIntoView({ block: "nearest" });
-      }
+      requestAnimationFrame(() => {
+        updatePlaylistMarquees();
+
+        const activeItem = playlistList.querySelector(".playlist-item.active");
+        if (activeItem) {
+          activeItem.scrollIntoView({ block: "nearest" });
+        }
+      });
     }
 
     function closePlaylist() {
@@ -2036,11 +2076,29 @@
       renderPlaylist();
       loadTrack(musicIndex, true);
 
-      audio.onended = nextMusic;
+      audio.onended = function () {
+        nextMusic();
+      };
+
+      audio.onerror = function () {
+        const track = playlist[musicIndex];
+        console.warn("Erro ao tocar a faixa:", track ? track.src : "desconhecida");
+
+        if (trackErrorSkipLock) return;
+        trackErrorSkipLock = true;
+
+        setTimeout(() => {
+          trackErrorSkipLock = false;
+        }, 600);
+
+        nextMusic();
+      };
+
       audio.onplay = function () {
         vinyl.classList.add("spin");
         updatePlayButtonState();
       };
+
       audio.onpause = function () {
         vinyl.classList.remove("spin");
         updatePlayButtonState();
@@ -2053,8 +2111,10 @@
       musicIndex = (index + playlist.length) % playlist.length;
       const track = playlist[musicIndex];
 
+      clearInterval(currentFadeInterval);
+
       audio.src = track.src;
-      cover.src = track.cover;
+      audio.load();
 
       updateTrackInfo();
 
@@ -2062,12 +2122,13 @@
 
       audio.play().then(function () {
         if (fadeIn) {
+          audio.volume = 0;
           fadeAudioTo(targetVolume, 1400);
         } else {
           audio.volume = targetVolume;
         }
       }).catch(function () {
-        /* autoplay pode ser bloqueado */
+        updatePlayButtonState();
       });
     }
 
@@ -2155,6 +2216,12 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
         closePlaylist();
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (playlistPanel.classList.contains("open")) {
+        updatePlaylistMarquees();
       }
     });
   </script>
