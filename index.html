@@ -1931,6 +1931,8 @@
 
     function scheduleNextSlide() {
       clearTimeout(galleryTimer);
+      if (!galleryItems.length) return;
+
       const currentItem = galleryItems[currentSlide];
       const delay = currentItem.type === "video" ? 9000 : 5500;
       galleryTimer = setTimeout(nextSlide, delay);
@@ -1994,23 +1996,39 @@
     }
 
     function renderPlaylist() {
-      playlistList.innerHTML = playlist.map((track, index) => `
-        <button
-          class="playlist-item ${index === musicIndex ? "active" : ""}"
-          type="button"
-          data-index="${index}"
-        >
-          <span class="playlist-item-cover">
-            <img src="${track.cover}" alt="${escapeHtml(track.title)}">
-          </span>
+      playlistList.innerHTML = "";
 
-          <span class="playlist-item-title-wrap">
-            <span class="playlist-item-title">
-              <span class="playlist-item-title-text">${escapeHtml(track.title)}</span>
-            </span>
-          </span>
-        </button>
-      `).join("");
+      playlist.forEach((track, index) => {
+        const button = document.createElement("button");
+        button.className = `playlist-item ${index === musicIndex ? "active" : ""}`;
+        button.type = "button";
+        button.dataset.index = index;
+
+        const coverWrap = document.createElement("span");
+        coverWrap.className = "playlist-item-cover";
+
+        const coverImg = document.createElement("img");
+        coverImg.alt = track.title;
+        setImageWithFallback(coverImg, getCoverSrc(track), DEFAULT_COVER);
+
+        const titleWrap = document.createElement("span");
+        titleWrap.className = "playlist-item-title-wrap";
+
+        const title = document.createElement("span");
+        title.className = "playlist-item-title";
+
+        const titleText = document.createElement("span");
+        titleText.className = "playlist-item-title-text";
+        titleText.textContent = track.title;
+
+        title.appendChild(titleText);
+        titleWrap.appendChild(title);
+        coverWrap.appendChild(coverImg);
+
+        button.appendChild(coverWrap);
+        button.appendChild(titleWrap);
+        playlistList.appendChild(button);
+      });
 
       requestAnimationFrame(updatePlaylistMarquees);
       updateTrackInfo();
@@ -2043,8 +2061,7 @@
       if (!track) return;
 
       currentTrackName.textContent = track.title;
-      cover.src = track.cover;
-      cover.alt = `Capa de ${track.title}`;
+      setMainCover(track);
 
       const items = playlistList.querySelectorAll(".playlist-item");
       items.forEach((item, index) => {
@@ -2113,11 +2130,13 @@
     }
 
     function startPlayer() {
+      if (!playlist.length) return;
+
       player.classList.add("show");
-      audio.volume = 0;
+      audio.volume = Number(volumeSlider.value) / 100;
 
       renderPlaylist();
-      loadTrack(musicIndex, true);
+      loadTrack(musicIndex, false);
 
       audio.onended = function () {
         nextMusic();
@@ -2125,7 +2144,7 @@
 
       audio.onerror = function () {
         const track = playlist[musicIndex];
-        console.warn("Erro ao tocar a faixa:", track ? track.src : "desconhecida");
+        console.warn("Erro ao tocar a faixa:", track ? track.file : "desconhecida");
 
         if (trackErrorSkipLock) return;
         trackErrorSkipLock = true;
@@ -2151,12 +2170,16 @@
     }
 
     function loadTrack(index, fadeIn = false) {
+      if (!playlist.length) return;
+
       musicIndex = (index + playlist.length) % playlist.length;
       const track = playlist[musicIndex];
+      const src = getTrackSrc(track);
 
       clearInterval(currentFadeInterval);
 
-      audio.src = track.src;
+      audio.pause();
+      audio.src = src;
       audio.load();
 
       updateTrackInfo();
@@ -2197,6 +2220,11 @@
 
     function toggleMusic() {
       hideMusicHint();
+
+      if (!audio.src && playlist.length) {
+        loadTrack(musicIndex, false);
+        return;
+      }
 
       if (audio.paused) {
         audio.play().catch(function () {});
