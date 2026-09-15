@@ -83,8 +83,24 @@
         linear-gradient(180deg, rgba(59, 42, 7, 0.16), rgba(0,0,0,0.08));
     }
 
+    /* ============================================================
+       FUNDO DE DENTRO - COMPUTADOR
+       Troque o nome do arquivo abaixo para a imagem que você quer
+       quando o site abrir no computador.
+       ============================================================ */
     .page-bg.site {
       background-image: url("imagens/fundo-dentro.png");
+    }
+
+    /* ============================================================
+       FUNDO DE DENTRO - CELULAR
+       Troque o nome do arquivo abaixo para a imagem que você quer
+       quando o site abrir no celular (telas de até 768px de largura).
+       ============================================================ */
+    @media (max-width: 768px) {
+      .page-bg.site {
+        background-image: url("imagens/fundo-dentro-celular.png");
+      }
     }
 
     .page-bg.site::after {
@@ -1095,6 +1111,21 @@
       overflow: hidden;
     }
 
+    /* ===== CONFETES DO ANIVERSÁRIO (aparecem na tela de senha) ===== */
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+      display: none;
+    }
+
+    #confettiCanvas.active {
+      display: block;
+    }
+
     @media (max-width: 980px) {
       .content-grid {
         grid-template-columns: 1fr;
@@ -1429,6 +1460,18 @@
     const senha = "181024";
     const inicio = new Date(2024, 9, 18);
 
+    /* ============================================================
+       ANIVERSÁRIO DE NAMORO
+       Começamos em 18/10, então todo dia 18 e 19 de outubro o site
+       entra em modo festa: confetes na tela de senha + um fundo de
+       dentro especial. Depois desses dois dias ele volta ao normal.
+       Troque o nome do arquivo abaixo para a imagem que você quer
+       nesses dois dias.
+       ============================================================ */
+    const DIA_ANIVERSARIO = 18;
+    const MES_ANIVERSARIO = 10; // outubro
+    const FOTO_FUNDO_ANIVERSARIO = "imagens/fundo-aniversario.png";
+
     const ASSET_FOLDERS = {
       imagens: "imagens",
       musicas: "musicas",
@@ -1631,6 +1674,7 @@
       experienceStarted = true;
 
       primeAudio();
+      stopConfetti();
 
       loginScreen.classList.add("hidden");
       loginBg.classList.remove("active");
@@ -2252,6 +2296,132 @@
         .replaceAll("'", "&#039;");
     }
 
+    /* ============================================================
+       CONFETES (canvas puro, funciona sem internet)
+       ============================================================ */
+    const confettiCanvas = document.createElement("canvas");
+    confettiCanvas.id = "confettiCanvas";
+    document.body.appendChild(confettiCanvas);
+
+    const confettiCtx = confettiCanvas.getContext("2d");
+    const CONFETTI_COLORS = ["#f4b400", "#ffd966", "#ff8fb1", "#ff5f7e", "#9ed4ff", "#c8a6ff", "#ffffff"];
+
+    let confettiParticles = [];
+    let confettiFrame = null;
+    let confettiBurstTimer = null;
+
+    function isPeriodoAniversario(date = new Date()) {
+      return (
+        date.getMonth() + 1 === MES_ANIVERSARIO &&
+        (date.getDate() === DIA_ANIVERSARIO || date.getDate() === DIA_ANIVERSARIO + 1)
+      );
+    }
+
+    function fitConfettiCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
+      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
+      confettiCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function makeConfettiParticle(fromTop) {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: fromTop ? -20 - Math.random() * window.innerHeight * 0.3 : Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 2.4,
+        vy: 1.6 + Math.random() * 3.4,
+        size: 6 + Math.random() * 8,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.22,
+        color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+        shape: Math.random() < 0.35 ? "circle" : "rect",
+        wobble: Math.random() * Math.PI * 2
+      };
+    }
+
+    function spawnConfetti(amount, fromTop = true) {
+      for (let i = 0; i < amount; i++) {
+        confettiParticles.push(makeConfettiParticle(fromTop));
+      }
+
+      if (confettiParticles.length > 260) {
+        confettiParticles = confettiParticles.slice(-260);
+      }
+    }
+
+    function drawConfetti() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      confettiCtx.clearRect(0, 0, width, height);
+
+      confettiParticles.forEach(function (p) {
+        p.wobble += 0.05;
+        p.x += p.vx + Math.sin(p.wobble) * 0.7;
+        p.y += p.vy;
+        p.angle += p.spin;
+
+        if (p.y - 30 > height || p.x < -60 || p.x > width + 60) {
+          p.x = Math.random() * width;
+          p.y = -20;
+          p.vx = (Math.random() - 0.5) * 2.4;
+          p.vy = 1.6 + Math.random() * 3.4;
+        }
+
+        confettiCtx.save();
+        confettiCtx.translate(p.x, p.y);
+        confettiCtx.rotate(p.angle);
+        confettiCtx.fillStyle = p.color;
+
+        if (p.shape === "circle") {
+          confettiCtx.beginPath();
+          confettiCtx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          confettiCtx.fill();
+        } else {
+          confettiCtx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+        }
+
+        confettiCtx.restore();
+      });
+    }
+
+    function confettiLoop() {
+      if (!confettiFrame) return;
+      drawConfetti();
+      confettiFrame = requestAnimationFrame(confettiLoop);
+    }
+
+    function startConfetti() {
+      if (confettiFrame) return;
+
+      fitConfettiCanvas();
+      confettiCanvas.classList.add("active");
+      confettiParticles = [];
+
+      spawnConfetti(160, true);  // a explosão da abertura
+      spawnConfetti(40, false);  // alguns já espalhados pela tela
+
+      confettiFrame = requestAnimationFrame(confettiLoop);
+
+      confettiBurstTimer = setInterval(function () {
+        spawnConfetti(70, true);
+      }, 4200);
+    }
+
+    function stopConfetti() {
+      if (confettiFrame) {
+        cancelAnimationFrame(confettiFrame);
+        confettiFrame = null;
+      }
+
+      clearInterval(confettiBurstTimer);
+      confettiBurstTimer = null;
+
+      confettiParticles = [];
+      confettiCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      confettiCanvas.classList.remove("active");
+    }
+
     enterBtn.addEventListener("click", checkPassword);
 
     passwordInput.addEventListener("keydown", function (e) {
@@ -2295,6 +2465,22 @@
         updatePlaylistMarquees();
       }
     });
+
+    window.addEventListener("resize", function () {
+      if (confettiFrame) {
+        fitConfettiCanvas();
+      }
+    });
+
+    /* ============================================================
+       MODO ANIVERSÁRIO: liga os confetes e troca o fundo de dentro
+       nos dias 18 e 19 de outubro. Nos outros dias nada muda.
+       ============================================================ */
+    if (isPeriodoAniversario()) {
+      siteBg.style.backgroundImage = `url("${FOTO_FUNDO_ANIVERSARIO}")`;
+      startConfetti();
+    }
   </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
