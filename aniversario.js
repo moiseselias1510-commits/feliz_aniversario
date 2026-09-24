@@ -32,7 +32,8 @@
   /* ==========================================================================
      1) CONFIGURAÇÃO  (mexa só aqui, se precisar)
      ========================================================================== */
-  var CFG = {
+    window.M1A_FORCAR = true;   /* TESTE: liga a animação hoje — APAGAR DEPOIS */
+    var CFG = {
     /* Data em que o namoro começou — usada para calcular o número de anos */
     anoInicio: 2024,
     mesInicio: 10,          /* outubro */
