@@ -39,8 +39,8 @@
     diaInicio: 18,
 
     /* Dias em que a animação aparece (sempre no mês abaixo) */
-    mesFesta: 10,           /* outubro */
-    diasFesta: [18, 19],
+    mesFesta: 9,           /* outubro */
+    diasFesta: [24, 25],
 
     /* Pasta das fotos (relativa ao index.html) */
     pastaFotos: "mais1ano",
