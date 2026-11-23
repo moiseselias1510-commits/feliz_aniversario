@@ -1842,20 +1842,16 @@
       return { years, months, days, hours, minutes, seconds };
     }
 
-    function setupThoughtOfDay() {
+     function setupThoughtOfDay() {
       const count = getDeterministicDailyNumber();
       thoughtOfDay.textContent = `Hoje pensei em você ${count} vezes`;
     }
 
+    /* Sorteia um número novo de 300 a 10000 a cada abertura da página */
     function getDeterministicDailyNumber() {
-      const now = CURRENT_DATE;
-      const seed = Number(
-        `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`
-      );
-      const x = Math.sin(seed) * 10000;
-      const fraction = x - Math.floor(x);
-      return Math.floor(fraction * 430) + 171;
+      return Math.floor(Math.random() * (10000 - 300 + 1)) + 300;
     }
+
 
     function setupMonthlyMemory() {
       const visibleMemories = getVisibleMemories();
